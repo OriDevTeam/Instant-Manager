@@ -1,0 +1,47 @@
+#!/bin/sh
+
+game_binary=$(cd ../settings/binaries && sh game_bin)
+db_binary=$(cd ../settings/binaries && sh db_bin)
+
+if [ ! -z "$1" -a "$1" != " " ]
+then
+	if [ ! -z "$2" -a "$2" != " " ]
+	then
+		if [ $2 == "$game_binary" ] 
+		then
+			configFileName="CONFIG"
+			valVar="PORT:"
+		elif [ $2 == "$db_binary" ]
+		then
+			configFileName="conf.txt"
+			valVar="BIND_PORT"
+		fi
+		
+		#coreDir=$("$1" | sed 's/ /\\ /g')
+		#echo "$1" >> log.txt
+		cd "$1"
+		
+		if [ ! -f "$configFileName" ]; then
+			echo 2
+			exit
+		fi
+		
+		#file_line=$(awk "/$valVar/{print NR}" $configFileName | awk 'NR==1')
+		#port=$(awk "NR==$file_line" $configFileName | cut -d = -f2 | tr -d ' ')
+		#string=$(netstat -n | grep $port)
+		
+		if [ -f pid ]; then
+			pid=$(cat pid)
+			string=$(netstat -o | grep $pid)
+			
+			[[ -z $string ]] && echo 0 || echo 1
+		else
+			echo 0
+		fi
+
+	else
+		echo -e "Especifique db ou game (test_core canal1_1 game)"
+	fi
+else
+	echo -e "Cancelado."
+fi

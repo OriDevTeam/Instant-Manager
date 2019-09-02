@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ ! -z "$1" -a "$1" != " " ]
+then
+	unameOut="$(uname -s)"
+	case "${unameOut}" in
+		CYGWIN* | MINGW*)	taskkill //F //PID $1 > /dev/null;;
+		*)          		kill -f $1
+	esac
+else
+	echo "No pid specified"
+fi

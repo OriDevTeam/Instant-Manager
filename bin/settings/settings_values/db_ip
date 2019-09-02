@@ -1,0 +1,2 @@
+#!/bin/sh
+echo -ne $(sh get_setting 7)

@@ -1,0 +1,17 @@
+#!/bin/sh
+if [ ! -z "$1" -a "$1" != " " ]
+then
+		DIR=conf/$1
+		if [ -d "$DIR" ]
+		then
+			cd $DIR
+			sh mkill `cat ./pid`
+			echo
+			echo -e "O core "$1" foi reiniciado."
+		else
+			echo -e "O core "$1" não existe."
+		fi
+else
+	echo -e "Tens de especificar o core a reiniciar."
+	echo -e "Ex: reiniciar_core canal1_cdd"
+fi	

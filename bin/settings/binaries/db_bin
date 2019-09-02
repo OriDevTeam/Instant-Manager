@@ -1,0 +1,5 @@
+#!/bin/sh
+environment=$(cd ../settings_values/ && sh env_path)
+cd ../../../shared/envs/$environment/settings/ &&
+db_bin=$echo awk 'NR==2' binaries.txt | cut -d "=" -f2
+echo "$db_bin"

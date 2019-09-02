@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# Get mode from user input
+#	Allowed modes:
+#		all:		backups account, common, log, player, webserver
+#		game:		backups account, common, player
+#		gameLog:	backups log
+#		web:		backups webserver
+#		exceptLog:	backups account, common, player, webserver
+MODE=$1
+
+if [ "$MODE" == "" ]; then
+	MODE="exceptLog"
+fi
+
+# Bins
+#MYSQLDUMP=`which mysqldump`
+#GZIP=`which gzip`
+#NCFTP=`which ncftp`
+
+# Date for folders and filenames
+DAY=$(date +"%Y-%m-%d")
+FILETIME=$(date +"%Y-%m-%d.%H")
+
+#cd settings/settings_values/
+# Local backup folder (no trailing slash)
+LOCAL_FOLDER="../../backups/sql"
+
+# MySQL Configuration
+#MYSQL_USER="$(sh db_ip)"
+#MYSQL_PASS="$(sh db_password)"
+
+# Which databases shall we backup?
+# Databases should be separated with a space
+#DATABASES="$(sh backup_databases)"
+if [ "$MODE" == "all" ]; then
+	DATABASES="account common log player"
+elif [ "$MODE" == "game" ]; then
+	DATABASES="account common player"
+elif [ "$MODE" == "gameLog" ]; then
+	DATABASES="log"
+elif [ "$MODE" == "web" ]; then
+	DATABASES="web"
+elif [ "$MODE" == "exceptLog" ]; then
+	DATABASES="account common player"
+fi
+
+# Check if DATABASES var is set...
+if [ "$DATABASES" == "" ]; then
+	echo -e "033[31mThe specified mode doesn't exist...033[0m"
+	exit 1
+fi
+
+# Dump and compress
+for db in $DATABASES
+do
+	FILE=$db.gz
+	echo -e "\e[32mDumping $db\e[0m"
+	mkdir -p $LOCAL_FOLDER/$FILETIME/
+	sh mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
+done
+
+# Transfer all backup files to remote host
+#echo -e "033[32mnTransfering files!033[0m"
+#$NCFTP -u$REMOTE_USER -p$REMOTE_PASS $REMOTE_HOST<<EOF
+#mkdir $REMOTE_FOLDER$DAY
+#cd $REMOTE_FOLDER$DAY
+#lcd $LOCAL_FOLDER
+#mput *
+#quit
+#EOF
+
+# Delete local dump files
+#rm -f $LOCAL_FOLDER/*

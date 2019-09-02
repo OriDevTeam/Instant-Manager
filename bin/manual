@@ -1,0 +1,18 @@
+#!/bin/bash
+
+PS3='Option: '
+options=("Server Service", "Source Compiling" "Quit")
+select opt in "${options[@]}"
+do
+	case $REPLY in
+        1)
+            echo -e "To manage the server service, enter the files directory of\nthe server and then the bin directory, there is the bash scripts you\ncan use."
+			break
+            ;;
+		2)
+            exit
+            ;;
+        *) echo "invalid option $REPLY";;
+	esac
+done
+

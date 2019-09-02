@@ -1,0 +1,18 @@
+#!/bin/sh
+
+ZID=$1
+
+if [ -f /proc/${ZID}/winpid ]; then
+	WINPID=$(cat /proc/${ZID}/winpid)
+fi
+
+if [ ! -z "$1" -a "$1" != " " ]
+then
+	unameOut="$(uname -s)"
+	case "${unameOut}" in
+		CYGWIN* | MINGW*)	[[ ! -z $WINPID ]] && taskkill //F //PID $WINPID > /dev/null;;
+		*)          		kill -f $ZID
+	esac
+else
+	echo "No pid specified"
+fi

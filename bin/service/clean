@@ -1,0 +1,24 @@
+#!/bin/sh
+
+logFiles="stdout
+packet_info.txt
+udp_packet_info.txt
+syslog.txt
+syserr.txt
+PTS.txt
+ProfileLog
+ver.txt
+mob_data.txt
+VERSION.txt
+"
+
+for logFile in $logFiles
+do
+  rm -rf "$logFile"
+done
+
+echo -e "Logs Cleared"
+#rm conf/*/*.core
+#rm conf/*/*.log
+#rm -fR conf/*/log/*
+#rm -fR conf/*/cores/*
