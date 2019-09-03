@@ -1,21 +1,21 @@
 #!/bin/sh
-echo -e "\e[33mConfiguration Manager:\e[0m"
+echo -e "\e[33mSettings Manager:\e[0m"
 
 PS3='What to do?: '
-options=("Settings" "Channels" "Backups" "Quit")
+options=("Create Settings" "Default Settings" "Quit")
 select opt in "${options[@]}"
 do
     case $REPLY in
 		1)
-			cd configure && sh settings.sh
+			sh create_settings.sh
             break
 			;;
 		2)
-			cd configure && sh channels.sh
+			sh channels.sh
             break
 			;;
 		3)
-			cd configure && sh backups.sh
+			sh backups.sh
             break
 			;;
         *) echo "invalid option $REPLY";;
