@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DATE=`date +"%d.%m.%y.%H"`
 echo "$DATE" >> ARCHIVED_DATE

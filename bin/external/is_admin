@@ -1,0 +1,10 @@
+#!/bin/sh
+
+function is_admin()
+{
+    net session > /dev/null 2>&1
+    if [ $? -eq 0 ]; then echo 1
+    else echo 0; fi
+}
+
+is_admin

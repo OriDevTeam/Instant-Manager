@@ -7,8 +7,6 @@
    * [Python2](https://packages.msys2.org/package/mingw-w64-x86_64-python2?repo=mingw64) - mingw-w64-x86_64-python2
    * [Python2-MySQL](https://packages.msys2.org/package/mingw-w64-x86_64-python2-mysql?repo=mingw64) - mingw-w64-x86_64-python2-mysql
    * [mpg123](https://packages.msys2.org/package/mingw-w64-x86_64-mpg123?repo=mingw64)(optional) - mingw-w64-x86_64-mpg123
-   * [bc](https://packages.msys2.org/package/bc?repo=msys&variant=x86_64) - bc/x86_64
-   * [which](https://packages.msys2.org/package/which?repo=msys&variant=x86_64) - which/x86_64
  ## On Linux: Yare yare daze...
  
  # Installation

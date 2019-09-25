@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PS3='What backup to do?: '
 options=("Full(SQL-LOGS)" "SQL" "LOGS" "Quit")
 select opt in "${options[@]}"

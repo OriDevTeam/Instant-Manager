@@ -54,10 +54,15 @@ fi
 # Dump and compress
 for db in $DATABASES
 do
-	FILE=$db.gz
-	echo -e "\e[32mDumping $db\e[0m"
-	mkdir -p $LOCAL_FOLDER/$FILETIME/
-	sh mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
+	available=$(sh mysql_available $db)
+	if [[ $available == 1 ]]; then
+		FILE=$db.gz
+		echo -e "\e[32mDumping $db\e[0m"
+		mkdir -p $LOCAL_FOLDER/$FILETIME/
+		sh mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
+	else
+		echo -e "Database $db is unavailable"
+	fi
 done
 
 # Transfer all backup files to remote host

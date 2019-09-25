@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo -e "A sincronizar com base de dados..."
+echo -e "Converting item_proto and mob_proto to TXT from SQL"
 
 cd ../../shared
 
@@ -13,4 +13,4 @@ cd ../bin/tools
 python2 convert_item.py
 python2 convert_mob.py
 
-echo -e "Base de dados sincronizada."
+echo -e "Protos converted."

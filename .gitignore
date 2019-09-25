@@ -1,5 +1,6 @@
 bin/quest/
 bin/backups/ARCHIVED_DATE
+backups/
 bin/settings/settings.txt
 bin/unused/
 configuration/
