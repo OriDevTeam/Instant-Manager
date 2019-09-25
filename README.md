@@ -1,4 +1,7 @@
 # Instant Manager (Metin2 Server Manager)
+
+![alt text](https://imgur.com/8epUklb.png "Instant Manager Menu")
+
 **Instant Manager** is a definitive server manager for metin2 aiming to simplify, optimize and create flexibility on server management on most OS's possible.
 
 # Requirements
