@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo -e "\e[33mBackup Manager:\e[0m"
 
 PS3='What to do?: '
@@ -7,11 +7,11 @@ select opt in "${options[@]}"
 do
     case $REPLY in
 		1)
-			cd backups && sh do_backup.sh
+			cd backups && bash do_backup.sh
             break
 			;;
 		2)
-			cd backups && sh restore_backup.sh
+			cd backups && bash restore_backup.sh
             break
 			;;
         *) echo "invalid option $REPLY";;

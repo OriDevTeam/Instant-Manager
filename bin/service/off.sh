@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -r keepalive.sh ]; then
 	mv keepalive.sh keepalive.sh.off
@@ -6,5 +6,5 @@ fi
 
 if [ -r ./pid ]; then
 	touch .killscript
-	sh ../../../../bin/external/prockill `cat ./pid`
+	bash ../../../../bin/external/prockill `cat ./pid`
 fi

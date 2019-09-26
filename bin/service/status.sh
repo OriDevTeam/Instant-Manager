@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 echo -ne "\e[33mService Status:\e[0m"
 echo -e " \e[32mOnline\e[0m|\e[31mOffline\e[0m|\e[33mMalfunction\e[0m|\e[35mUnknown\e[0m"
 echo -e "note: press ctrl+c to skip status check"
 trap "echo -e ''; exit;" SIGINT SIGTERM
 
-game_binary=$(cd ../settings/binaries && sh game_bin)
-db_binary=$(cd ../settings/binaries && sh db_bin)
-cores_num=$(cd ../settings/settings_values && sh cores_num)
+game_binary=$(cd ../settings/binaries && bash game_bin)
+db_binary=$(cd ../settings/binaries && bash db_bin)
+cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 cd ../../configuration/databases/db/
 
@@ -22,7 +22,7 @@ do
 	#echo $PWD
 	corePath=$PWD
 	
-	status=$(cd ../../../../bin/service && sh test_core "$corePath" $db_binary)
+	status=$(cd ../../../../bin/service && bash test_core "$corePath" $db_binary)
 	case $status in
 		0) echo -ne " \e[31m$core\e[0m";;
 		1) echo -ne " \e[32m$core\e[0m";;
@@ -53,7 +53,7 @@ do
 		cd $core
 		corePath=$PWD
 		
-		status=$(cd ../../../../bin/service && sh test_core "$corePath" $game_binary)
+		status=$(cd ../../../../bin/service && bash test_core "$corePath" $game_binary)
 		case $status in
 			0) echo -ne " \e[31m$core\e[0m";;
 			1) echo -ne " \e[32m$core\e[0m";;

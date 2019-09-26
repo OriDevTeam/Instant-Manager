@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo -e "\e[33mConfiguration Manager:\e[0m"
 
 PS3='What to do?: '
@@ -7,15 +7,15 @@ select opt in "${options[@]}"
 do
     case $REPLY in
 		1)
-			cd configure && sh settings.sh
+			cd configure && bash settings.sh
             break
 			;;
 		2)
-			cd configure && sh channels.sh
+			cd configure && bash channels.sh
             break
 			;;
 		3)
-			cd configure && sh backups.sh
+			cd configure && bash backups.sh
             break
 			;;
         *) echo "invalid option $REPLY";;

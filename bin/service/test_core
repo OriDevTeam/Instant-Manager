@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-game_binary=$(cd ../settings/binaries && sh game_bin)
-db_binary=$(cd ../settings/binaries && sh db_bin)
+game_binary=$(cd ../settings/binaries && bash game_bin)
+db_binary=$(cd ../settings/binaries && bash db_bin)
 
 if [ ! -z "$1" -a "$1" != " " ]
 then

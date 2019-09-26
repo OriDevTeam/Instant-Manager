@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 if [ ! -z "$1" -a "$1" != " " ]
 then
 		DIR=conf/$1
 		if [ -d "$DIR" ]
 		then
 			cd $DIR
-			sh mkill `cat ./pid`
+			bash mkill `cat ./pid`
 			echo
 			echo -e "O core "$1" foi reiniciado."
 		else

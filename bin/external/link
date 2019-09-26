@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # We still need this.
 windows() { [[ -n "$WINDIR" ]]; }

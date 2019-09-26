@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 settingsDir="../settings/settings.txt"
 
 if [ -f $settingsDir ]; then

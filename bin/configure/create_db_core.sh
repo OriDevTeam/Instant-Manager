@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 mkdir -p ../../configuration/databases/db/$core
 cd ../../configuration/databases/db/$core
 
-sh ../../../../bin/external/link CMD ../../../../shared/CMD
-sh ../../../../bin/external/link keepalive.sh ../../../../shared/db_keepalive.sh
+bash ../../../../bin/external/link CMD ../../../../shared/CMD
+bash ../../../../bin/external/link keepalive.sh ../../../../shared/db_keepalive.sh
 
-sh ../../../../bin/external/link item_names.txt ../../../../shared/item_names.txt
-sh ../../../../bin/external/link item_proto.txt ../../../../shared/item_proto.txt
-sh ../../../../bin/external/link mob_names.txt ../../../../shared/mob_names.txt
-sh ../../../../bin/external/link mob_proto.txt ../../../../shared/mob_proto.txt
+bash ../../../../bin/external/link item_names.txt ../../../../shared/item_names.txt
+bash ../../../../bin/external/link item_proto.txt ../../../../shared/item_proto.txt
+bash ../../../../bin/external/link mob_names.txt ../../../../shared/mob_names.txt
+bash ../../../../bin/external/link mob_proto.txt ../../../../shared/mob_proto.txt
 
 configDir=../../../configuration/databases/db/$core/conf.txt
 
@@ -18,11 +18,11 @@ cd settings/settings_values/
 
 echo "// General Settings //" >> $configDir
 echo 'WELCOME_MSG = "Database Core Initialized"' >> $configDir
-echo "BIND_PORT = $(sh db_port)" >> $configDir
-echo "SQL_ACCOUNT = \"$(sh db_ip) account $(sh db_user) $(sh db_password) 0\"" >> $configDir
-echo "SQL_PLAYER = \"$(sh db_ip) player $(sh db_user) $(sh db_password) 0\"" >> $configDir
-echo "SQL_COMMON = \"$(sh db_ip) common $(sh db_user) $(sh db_password) 0\"" >> $configDir
-echo "SQL_HOTBACKUP = \"$(sh db_ip) hotbackup $(sh db_user) $(sh db_password) 0\"" >> $configDir
+echo "BIND_PORT = $(bash db_port)" >> $configDir
+echo "SQL_ACCOUNT = \"$(bash db_ip) account $(bash db_user) $(bash db_password) 0\"" >> $configDir
+echo "SQL_PLAYER = \"$(bash db_ip) player $(bash db_user) $(bash db_password) 0\"" >> $configDir
+echo "SQL_COMMON = \"$(bash db_ip) common $(bash db_user) $(bash db_password) 0\"" >> $configDir
+echo "SQL_HOTBACKUP = \"$(bash db_ip) hotbackup $(bash db_user) $(bash db_password) 0\"" >> $configDir
 echo "TABLE_POSTFIX = \"\"" >> $configDir
 echo "" >> $configDir
 echo "// Other Settings //" >> $configDir

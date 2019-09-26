@@ -1,2 +1,2 @@
-#!/bin/sh
-echo -ne $(sh get_setting 7)
+#!/bin/bash
+echo -ne $(bash get_setting 7)

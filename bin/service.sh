@@ -1,5 +1,5 @@
-#!/bin/sh
-cd service && sh status.sh
+#!/bin/bash
+cd service && bash status.sh
 
 PS3='What to do?: '
 options=("Start" "Stop" "Restart" "Generate TXT(from DB)" "Quit")
@@ -8,19 +8,19 @@ do
     case $REPLY in
         1)
 			#echo "$PWD"
-			sh start.sh
+			bash start.sh
             break
             ;;
         2)
-			sh stop.sh
+			bash stop.sh
             break
             ;;
         3)
-            sh restart.sh
+            bash restart.sh
 			break
             ;;
 		4)
-            sh update_db.sh
+            bash update_db.sh
 			break
             ;;
 		5)

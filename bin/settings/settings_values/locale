@@ -1,2 +1,2 @@
-#!/bin/sh
-echo $(sh get_setting 2)
+#!/bin/bash
+echo $(bash get_setting 2)

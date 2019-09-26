@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Get mode from user input
 #	Allowed modes:
@@ -27,12 +27,12 @@ FILETIME=$(date +"%Y-%m-%d.%H")
 LOCAL_FOLDER="../../backups/sql"
 
 # MySQL Configuration
-#MYSQL_USER="$(sh db_ip)"
-#MYSQL_PASS="$(sh db_password)"
+#MYSQL_USER="$(bash db_ip)"
+#MYSQL_PASS="$(bash db_password)"
 
 # Which databases shall we backup?
 # Databases should be separated with a space
-#DATABASES="$(sh backup_databases)"
+#DATABASES="$(bash backup_databases)"
 if [ "$MODE" == "all" ]; then
 	DATABASES="account common log player"
 elif [ "$MODE" == "game" ]; then
@@ -54,12 +54,12 @@ fi
 # Dump and compress
 for db in $DATABASES
 do
-	available=$(sh mysql_available $db)
+	available=$(bash mysql_available $db)
 	if [[ $available == 1 ]]; then
 		FILE=$db.gz
 		echo -e "\e[32mDumping $db\e[0m"
 		mkdir -p $LOCAL_FOLDER/$FILETIME/
-		sh mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
+		bash mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
 	else
 		echo -e "Database $db is unavailable"
 	fi

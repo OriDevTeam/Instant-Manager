@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-game_binary=$(cd ../settings/binaries && sh game_bin)
-db_binary=$(cd ../settings/binaries && sh db_bin)
-cores_num=$(cd ../settings/settings_values && sh cores_num)
+game_binary=$(cd ../settings/binaries && bash game_bin)
+db_binary=$(cd ../settings/binaries && bash db_bin)
+cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 clear
 echo -e "Stopping Server..."
@@ -13,14 +13,14 @@ stop_core()
 	binary_name=$1
 	folder=$2
 	p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
-	sh ../../../../bin/service/off.sh &
+	bash ../../../../bin/service/off.sh &
 	
 	elapsed=0
 	
 	corePath=$PWD
 
-	while [ $(cd ../../../../bin/service && sh test_core "$corePath" $binary_name) == 1 ]; do
-		status=$(cd ../../../../bin/service && sh test_core "$corePath" $binary_name)
+	while [ $(cd ../../../../bin/service && bash test_core "$corePath" $binary_name) == 1 ]; do
+		status=$(cd ../../../../bin/service && bash test_core "$corePath" $binary_name)
 		echo -e "status: $status"
 		elapsed=$(($elapsed+1))
 

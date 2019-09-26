@@ -5,16 +5,16 @@ select opt in "${options[@]}"
 do
     case $REPLY in
 		1)
-			cd ../external/ && sh backup_sql "all"
-			sh backup_cores_logs.sh
+			cd ../external/ && bash backup_sql "all"
+			bash backup_cores_logs.sh
             break
 			;;
 		2)
-			cd ../external/ && sh backup_sql "all"
+			cd ../external/ && bash backup_sql "all"
             break
 			;;
 		3)
-			sh backup_cores_logs.sh
+			bash backup_cores_logs.sh
             break
 			;;
         *) echo "invalid option $REPLY";;

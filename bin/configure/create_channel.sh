@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 channelType=$1
 channel_number=$2
 skipOverwriteCheck=$3

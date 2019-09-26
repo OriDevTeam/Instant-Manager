@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo -e "Converting item_proto and mob_proto to TXT from SQL"
 

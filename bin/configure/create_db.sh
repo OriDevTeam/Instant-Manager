@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 skipOverwriteCheck=$1
 
 if [[ -d ../../configuration/databases/db ]] && [[ ! "$skipOverwriteCheck" -eq 1 ]]; then

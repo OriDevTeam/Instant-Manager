@@ -1,4 +1,4 @@
-#!/bin/sh
-sh stop.sh && sh start.sh
-#sh stop
-#sh start
+#!/bin/bash
+bash stop.sh && sh start.sh
+#bash stop
+#bash start

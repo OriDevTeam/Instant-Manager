@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 mkdir -p ../../configuration/channels/$channel/$core
 cd ../../configuration/channels/$channel/$core
 
 mkdir -p mark
 
-sh ../../../../bin/external/link locale ../../../../shared/locale
-sh ../../../../bin/external/link data ../../../../shared/data
-sh ../../../../bin/external/link CMD ../../../../shared/CMD
-sh ../../../../bin/external/link keepalive.sh ../../../../shared/game_keepalive.sh
-sh ../../../../bin/external/link package ../../../../shared/package
+bash ../../../../bin/external/link locale ../../../../shared/locale
+bash ../../../../bin/external/link data ../../../../shared/data
+bash ../../../../bin/external/link CMD ../../../../shared/CMD
+bash ../../../../bin/external/link keepalive.sh ../../../../shared/game_keepalive.sh
+bash ../../../../bin/external/link package ../../../../shared/package
 
 configDir=../../../configuration/channels/$channel/$core/CONFIG
 
@@ -28,29 +28,29 @@ cd settings/settings_values/
 echo "# General Settings #" >> $configDir
 echo "HOSTNAME: "$channel"_"$core >> $configDir
 echo "CHANNEL: $channel_number" >> $configDir
-echo "BIND_IP: $(sh bind_ip)" >> $configDir
-echo "PORT: $(($(sh base_game_port) + (10 * $channel_number) + $core_name))" >> $configDir
-echo "P2P_PORT: $(($(sh base_game_port) + (100 * $channel_number) + (10 * $channel_number) + $core_name))" >> $configDir
-echo "DB_ADDR: $(sh db_ip)" >> $configDir
-echo "DB_PORT: $(sh db_port)" >> $configDir
-echo "PLAYER_SQL: $(sh db_ip) $(sh db_user) $(sh db_password) player" >> $configDir
-echo "COMMON_SQL: $(sh db_ip) $(sh db_user) $(sh db_password) common" >> $configDir
-echo "LOG_SQL: $(sh db_ip) $(sh db_user) $(sh db_password) log" >> $configDir
+echo "BIND_IP: $(bash bind_ip)" >> $configDir
+echo "PORT: $(($(bash base_game_port) + (10 * $channel_number) + $core_name))" >> $configDir
+echo "P2P_PORT: $(($(bash base_game_port) + (100 * $channel_number) + (10 * $channel_number) + $core_name))" >> $configDir
+echo "DB_ADDR: $(bash db_ip)" >> $configDir
+echo "DB_PORT: $(bash db_port)" >> $configDir
+echo "PLAYER_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) player" >> $configDir
+echo "COMMON_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) common" >> $configDir
+echo "LOG_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) log" >> $configDir
 
 if [ "$channel" != "auth" ]; then
 	echo "MAP_ALLOW:$map_allow" >> $configDir
 fi
 
-echo "LOCALE_SERVICE: $(sh locale)" | tr a-z A-Z >> $configDir
+echo "LOCALE_SERVICE: $(bash locale)" | tr a-z A-Z >> $configDir
 echo "" >> $configDir
 echo "# Sync Settings #" >> $configDir
 echo "SAVE_EVENT_SECOND_CYCLE: 180" >> $configDir
 echo "PING_EVENT_SECOND_CYCLE: 180" >> $configDir
 echo "" >> $configDir
 echo "# Mall Settings #" >> $configDir
-echo "MALL_URL: $(sh mall_url)" >> $configDir
-echo "ADMINPAGE_IP: $(sh adminpage_ip)" >> $configDir
-echo "ADMINPAGE_PASSWORD: $(sh adminpage_password)" >> $configDir
+echo "MALL_URL: $(bash mall_url)" >> $configDir
+echo "ADMINPAGE_IP: $(bash adminpage_ip)" >> $configDir
+echo "ADMINPAGE_PASSWORD: $(bash adminpage_password)" >> $configDir
 echo "" >> $configDir
 echo "# Game Settings #" >> $configDir
 echo "VIEW_RANGE: 6000" >> $configDir

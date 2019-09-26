@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 logFiles="stdout
 packet_info.txt

@@ -1,28 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
-game_binary=$(cd ../settings/binaries && sh game_bin)
-db_binary=$(cd ../settings/binaries && sh db_bin)
-cores_num=$(cd ../settings/settings_values && sh cores_num)
+game_binary=$(cd ../settings/binaries && bash game_bin)
+db_binary=$(cd ../settings/binaries && bash db_bin)
+cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 clear
 echo -e "Starting Server"
 echo -e ""
 
 sleep 1
-#sh update_db
+#bash update_db
 
 start_core()
 {
 	binary_name=$1
 	folder=$2
 	p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
-	#sh ../../../../bin/service/clean &
-	sh ../../../../bin/service/on.sh &
+	#bash ../../../../bin/service/clean &
+	bash ../../../../bin/service/on.sh &
 	
 	elapsed=0
 	
 	corePath=$PWD
-	while [ $(cd ../../../../bin/service && sh test_core "$corePath" $binary_name) == 0 ]; do
+	while [ $(cd ../../../../bin/service && bash test_core "$corePath" $binary_name) == 0 ]; do
 		elapsed=$(($elapsed+1))
 
 		#clear

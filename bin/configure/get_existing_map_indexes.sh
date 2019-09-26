@@ -5,7 +5,7 @@
 # Output will be written in arrays map_list and index_list 
 
 cd ../settings/settings_values/
-locale=$(sh locale)
+locale=$(bash locale)
 
 cd ../../../shared/locale/$locale/map/
 
