@@ -1,0 +1,2 @@
+#!/bin/bash
+echo $(bash get_setting 17)

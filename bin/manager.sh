@@ -7,7 +7,7 @@ unameOut="$(uname -s)"
 case "${unameOut}" in
 	CYGWIN* | MINGW*)	[ $(bash external/is_admin) == 0 ] && echo "warning: adminstrator privileges are required";;
 	FreeBSD*)	echo "Requires X permissions";;
-	Linux*)		echo "Requires Bash";;
+	Linux*)		echo "Requires X Permissions";;
 esac
 
 mpg123=`command -v mpg123`

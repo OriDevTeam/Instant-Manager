@@ -10,9 +10,19 @@
    * [Python2](https://packages.msys2.org/package/mingw-w64-x86_64-python2?repo=mingw64) - mingw-w64-x86_64-python2
    * [Python2-MySQL](https://packages.msys2.org/package/mingw-w64-x86_64-python2-mysql?repo=mingw64) - mingw-w64-x86_64-python2-mysql
    * [mpg123](https://packages.msys2.org/package/mingw-w64-x86_64-mpg123?repo=mingw64)(optional) - mingw-w64-x86_64-mpg123
- ## On Linux: Yare yare daze...
+ ## On Linux: MySQL Server
+ - FreeBSD pkg Packages: 
+   * Bash Python2 Python2-MySQL
+   * mpg123(optional)
+   
+ - Debian apt-get Packages:
+   * python2.7 python-pymysql
+   * mpg123(optional)
  
  # Installation
+ Git clone the repository into wished directory:
+ > git clone https://github.com/OriDevTeam/Instant-Manager
+ 
  Open the folder called shared and copy the following folders and files:
  - data
  - locale
@@ -23,11 +33,3 @@
  - mob_names.txt
  - mob_proto.txt
  
- Open the folder called envs, and create a folder with the operative system wanted(ex: windows), and copy the binary files/libs inside.
- > After, create another folder inside called settings, with a txt file called binaries.txt with the following example structure:
-
-```sh
-game=game.exe
-db=db.exe
-qc=qc.exe
-```

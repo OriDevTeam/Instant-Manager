@@ -9,64 +9,66 @@ game_binary=$(cd ../settings/binaries && bash game_bin)
 db_binary=$(cd ../settings/binaries && bash db_bin)
 cores_num=$(cd ../settings/settings_values && bash cores_num)
 
-cd ../../configuration/databases/db/
 
-echo -ne "\e[33mDB -\e[0m"
-
-cores=(*/)
-cores=("${cores[@]%/}")
-for core in ${cores[@]}
-do
+CheckStatus()
+{
+	dir=$1
+	name=$2
+	binary=$3
 	
-	cd $core
-	#echo $PWD
-	corePath=$PWD
-	
-	status=$(cd ../../../../bin/service && bash test_core "$corePath" $db_binary)
-	case $status in
-		0) echo -ne " \e[31m$core\e[0m";;
-		1) echo -ne " \e[32m$core\e[0m";;
-		2) echo -ne " \e[33m$core\e[0m";;
-		*) echo -ne " \e[35m$core\e[0m";;
-	esac
-	
-	cd ../
-	
-	echo -e ""
-done
-
-cd ../../channels/
-
-channels=(*/)
-channels=("${channels[@]%/}")
-
-for channel in ${channels[@]}
-do
-	cd $channel
-	
-	echo -ne "\e[33m$channel -\e[0m"
-	
-	cores=(*/)
-	cores=("${cores[@]%/}")
-	for core in ${cores[@]}
-	do
-		cd $core
-		corePath=$PWD
+	if [ -d "$dir" ]; then
+		#echo "Entering $dir"
+		cd $dir
 		
-		status=$(cd ../../../../bin/service && bash test_core "$corePath" $game_binary)
-		case $status in
-			0) echo -ne " \e[31m$core\e[0m";;
-			1) echo -ne " \e[32m$core\e[0m";;
-			2) echo -ne " \e[33m$core\e[0m";;
-			*) echo -ne " \e[35m$core\e[0m";;
-		esac
+		mains=(*/)
+		mains=("${mains[@]%/}")
+		
+		for main in ${mains[@]}
+		do
+			echo -ne "\e[33m$main -\e[0m"
+			
+			cd $main
+			
+			cores=(*/)
+			cores=("${cores[@]%/}")
+			for core in ${cores[@]}
+			do
+				
+				cd $core
+				#echo $PWD
+				corePath=$PWD
+				
+				status=$(cd ../../../../bin/service && bash test_core "$corePath" $binary)
+				case $status in
+					0) echo -ne " \e[31m$core\e[0m";;
+					1) echo -ne " \e[32m$core\e[0m";;
+					2) echo -ne " \e[33m$core\e[0m";;
+					*) echo -ne " \e[35m$core\e[0m";;
+				esac
+				
+				cd ..
+				
+			done
+			
+			echo -e ""
+			
+			cd ..
+		done
+		
+	else
+		echo -e "\e[33m$name directory doesn't exists, missing configuration?\e[0m"
+		return
+	fi
 	
-		cd ../
-	done
-	
-	echo -e ""
-	
-	cd ../
-done
+	cd ..
+}
 
-cd ../../bin/
+cd ../../configuration/
+
+dbDir="databases/"
+channelsDir="channels/"
+
+CheckStatus $dbDir "DB" $db_binary
+CheckStatus $channelsDir "Channels" $game_binary
+
+#cd ../../bin/

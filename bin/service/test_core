@@ -31,8 +31,15 @@ then
 		#string=$(netstat -n | grep $port)
 		
 		if [ -f pid ]; then
+			
 			pid=$(cat pid)
-			string=$(netstat -o | grep $pid)
+			
+			os="$(uname -s)"
+			case "${os}" in
+				CYGWIN* | MINGW*)	string=$(netstat -n | grep $pid);;
+				FreeBSD*)			string=$(sockstat -l | grep $pid);;
+				Linux*)				string=$(ss -n | grep $pid);;
+			esac
 			
 			[[ -z $string ]] && echo 0 || echo 1
 		else
@@ -40,8 +47,8 @@ then
 		fi
 
 	else
-		echo -e "Especifique db ou game (test_core canal1_1 game)"
+		echo -e "Specify db/game core name"
 	fi
 else
-	echo -e "Cancelado."
+	echo -e "Canceled."
 fi

@@ -1,5 +1,0 @@
-#!/bin/bash
-environment=$(cd ../settings_values/ && bash env_path)
-cd ../../../shared/envs/$environment/settings/ &&
-qc_bin=$echo awk 'NR==3' binaries.txt | cut -d "=" -f2
-echo "$qc_bin"

@@ -1,5 +1,0 @@
-#!/bin/bash
-environment=$(cd ../settings_values/ && bash env_path)
-cd ../../../shared/envs/$environment/settings/ &&
-game_bin=$echo awk 'NR==1' binaries.txt | cut -d "=" -f2
-echo -e "$game_bin"
