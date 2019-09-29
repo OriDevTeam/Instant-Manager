@@ -5,23 +5,6 @@ os=$(uname -s)
 
 bash=$(command -v bash)
 
-if [[ $os == "CYGWIN" ]]; then
-	install_cmd="apt-cyg"
-	install_cmd_args="apt-cyg install bash"
-elif [[ $os =~ "MINGW" ]]; then
-	install_cmd="pacman"
-	install_cmd_args="pacman -S bash"
-elif [[ $os == "Linux" ]]; then
-	install_cmd="apt-get"
-	install_cmd_args="apt-get install bash"
-elif [[ $os == "FreeBSD" ]]; then
-	install_cmd="pkg"
-	install_cmd_args="pkg install bash"
-else
-	install_cmd="none"
-	install_cmd_args="none"
-fi
-
 if [ -z $bash ]; then
 	if [[ $os == "CYGWIN" ]]; then
 		install_cmd="apt-cyg"
