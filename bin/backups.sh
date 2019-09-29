@@ -14,6 +14,9 @@ do
 			cd backups && bash restore_backup.sh
             break
 			;;
+		3)
+			break;
+			;;
         *) echo "invalid option $REPLY";;
     esac
 done

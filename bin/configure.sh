@@ -18,6 +18,9 @@ do
 			cd configure && bash backups.sh
             break
 			;;
+		4)
+			break
+			;;
         *) echo "invalid option $REPLY";;
     esac
 done
