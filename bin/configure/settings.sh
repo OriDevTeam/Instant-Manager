@@ -11,12 +11,8 @@ do
             break
 			;;
 		2)
-			bash channels.sh
-            break
-			;;
-		3)
-			bash backups.sh
-            break
+			echo "Unavailabe atm"
+			break
 			;;
         *) echo "invalid option $REPLY";;
     esac

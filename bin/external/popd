@@ -1,0 +1,4 @@
+#!/bin/bash
+popd () {
+    command popd "$@" > /dev/null
+}

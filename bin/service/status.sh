@@ -5,8 +5,8 @@ echo -e " \e[32mOnline\e[0m|\e[31mOffline\e[0m|\e[33mMalfunction\e[0m|\e[35mUnkn
 echo -e "note: press ctrl+c to skip status check"
 trap "echo -e ''; exit;" SIGINT SIGTERM
 
-game_binary=$(cd ../settings/binaries && bash game_bin)
-db_binary=$(cd ../settings/binaries && bash db_bin)
+game_binary=$(cd ../settings/settings_values && bash game_bin)
+db_binary=$(cd ../settings/settings_values && bash db_bin)
 cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 

@@ -85,6 +85,9 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
 	echo "adminpage_password=$adminpage_password" >> $settingsDir
 	echo "mall_url=$mall_url" >> $settingsDir
 	echo "backup_databases=$backup_databases" >> $settingsDir
+	echo "db_bin=db"
+	echo "game_bin=game"
+	echo "qc_bin=qc"
 	echo -e "\e[33mSettings saved in $settingsDir\e[0m"
 fi
 

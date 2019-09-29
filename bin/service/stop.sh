@@ -1,7 +1,7 @@
 #!/bin/bash
 
-game_binary=$(cd ../settings/binaries && bash game_bin)
-db_binary=$(cd ../settings/binaries && bash db_bin)
+game_binary=$(cd ../settings/settings_values && bash game_bin)
+db_binary=$(cd ../settings/settings_values && bash db_bin)
 cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 clear
