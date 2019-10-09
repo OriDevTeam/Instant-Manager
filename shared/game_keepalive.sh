@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GAME_BIN=$(cd ../../../../bin/settings/binaries && sh game_bin)
+GAME_BIN=$(cd ../../../../bin/settings/settings_values && sh game_bin)
 ENV_PATH=$(cd ../../../../bin/settings/settings_values && sh env_path)
 
 while ( : ) do
@@ -22,7 +22,7 @@ while ( : ) do
 	echo "autogame starting db $DATE" >> syslog.txt
 	echo "running" $GAME_BIN >> syslog.txt
 	
-	exec ../../../../bin/envs/$ENV_PATH/$GAME_BIN
+	exec ../../../../shared/envs/$ENV_PATH/$GAME_BIN
   
 	if [ -r $GAME_BIN.core ]; then
 		mv $GAME_BIN.core cores/core-$DATE

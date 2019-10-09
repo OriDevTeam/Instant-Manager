@@ -1,7 +1,12 @@
 #!/bin/bash
+channel=$1
+channel_number=$2
+core=$3
+core_name=$4
+map_allow=$5
 
-mkdir -p ../../configuration/channels/$channel/$core
-cd ../../configuration/channels/$channel/$core
+mkdir -p ../../configuration/channels/$channel/$core_name
+cd ../../configuration/channels/$channel/$core_name
 
 mkdir -p mark
 
@@ -11,26 +16,18 @@ bash ../../../../bin/external/link CMD ../../../../shared/CMD
 bash ../../../../bin/external/link keepalive.sh ../../../../shared/game_keepalive.sh
 bash ../../../../bin/external/link package ../../../../shared/package
 
-configDir=../../../configuration/channels/$channel/$core/CONFIG
+configDir=../../../configuration/channels/$channel/$core_name/CONFIG
 
 cd ../../../../bin/
-
-if [ "$channel" != "auth" ]; then
-	cd configure/
-	
-	echo "Loading Available Map Menu..."
-	source ./get_available_map_indexes.sh
-	map_allow=$chosen
-fi
 
 cd settings/settings_values/
 
 echo "# General Settings #" >> $configDir
-echo "HOSTNAME: "$channel"_"$core >> $configDir
+echo "HOSTNAME: "$channel"_"$core_name >> $configDir
 echo "CHANNEL: $channel_number" >> $configDir
 echo "BIND_IP: $(bash bind_ip)" >> $configDir
-echo "PORT: $(($(bash base_game_port) + (10 * $channel_number) + $core_name))" >> $configDir
-echo "P2P_PORT: $(($(bash base_game_port) + (100 * $channel_number) + (10 * $channel_number) + $core_name))" >> $configDir
+echo "PORT: $(($(bash base_game_port) + (10 * $channel_number) + $core))" >> $configDir
+echo "P2P_PORT: $(($(bash base_game_port) + (100 * $channel_number) + (10 * $channel_number) + $core))" >> $configDir
 echo "DB_ADDR: $(bash db_ip)" >> $configDir
 echo "DB_PORT: $(bash db_port)" >> $configDir
 echo "PLAYER_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) player" >> $configDir
@@ -70,4 +67,4 @@ spam_block_max_level: 90
 protect_normal_player: 1
 '
 
-echo -e "Created '$channel' '$core'"
+echo -e "Created '$channel' '$core_name'"

@@ -4,15 +4,17 @@
 # And fill both with same number of elements
 # Chosen output will be elements from result array
 
-#declare -a options=$1
+options=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
+results=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 
-#for i in "${!options[@]}"; do
-#	printf '${options[%s]}=%s\n' "$i" "${options[i]}"
-#done
+declare -p options results
+
+title=$1
 
 menu() {
 	clear
-    echo -e "\e[36mAvailable options:\e[0m"
+	echo $title
+    echo -e "\e[36mAvailable options:\e[0m" 
     for i in ${!options[@]}; do 
         printf "\e[36m%3d%s)\e[33m %25s - \e[32m%2s\n\e[0m" $((i+1)) "${choices[i]:- }" "${options[i]}" "${results[i]}"
     done
@@ -38,3 +40,5 @@ for i in ${!options[@]}; do
     # [[ "${choices[i]}" ]] && { printf " %s" "${results[i]}"; msg=""; }
 	[[ "${choices[i]}" ]] && { chosen+=" ${results[i]}"; }
 done
+
+echo $chosen

@@ -35,7 +35,7 @@ start_core()
 			echo -e "O $p_text não responde."
 			echo -e "Pressione CTRL+C para cancelar."
 		fi
-		#sleep 1
+		sleep 1
 		#clear
 	done
 }

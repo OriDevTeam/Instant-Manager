@@ -4,10 +4,11 @@
 # And fill both with same number of elements
 # Output will be written in arrays map_list and index_list 
 
-cd ../settings/settings_values/
+pushd "../settings/settings_values/" > /dev/null
 locale=$(bash locale)
+popd > /dev/null
 
-cd ../../../shared/locale/$locale/map/
+pushd "../../shared/locale/$locale/map/" > /dev/null
 
 while IFS= read -r line
 do
@@ -15,10 +16,9 @@ do
 	map=$(echo $line | cut -d " " -f2)
 	
 	if [[ ! -z "$index" && "$map" ]] ; then
-		if [[ ! -v "channels_map_index_list[index]" ]] ; then
-			map_list+=($map)
-			index_list+=($index)
-		fi
+		map_list[index]=$map
+		index_list[index]=$index
 	fi
 done < "index"
 
+popd > /dev/null

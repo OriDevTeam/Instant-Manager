@@ -1,22 +1,14 @@
 #!/bin/bash
-# To use this script for now, call it using 'source' command
-# declare two arrays with the names: options and result
-# And fill both with same number of elements
-# Chosen output will be elements from result array
-
+channel=$1
 channels_map_index_list=()
-map_list=()
-index_list=()
-options=()
-results=()
 
-cd ../../configuration/channels/$channel/
+pushd "../../configuration/channels/$channel" > /dev/null
 
 cores=(*/)
 cores=("${cores[@]%/}")
 for core in "${cores[@]}"
 do
-	cd $core
+	pushd $core > /dev/null
 	
 	if [ -f "CONFIG" ]; then
 		while IFS= read -r line
@@ -28,23 +20,16 @@ do
 				IFS=' ' read -r -a cmiArray <<< "$value"
 				for element in "${cmiArray[@]}"
 				do
-					channels_map_index_list[element]=1
+					channels_map_index_list+=($element)
 				done
 			fi
 		done < "CONFIG"
+	
 	fi
 		
-	cd ../
+	popd > /dev/null
 done
 
-cd ../../../bin/configure/
+popd > /dev/null
 
-source ./get_existing_map_indexes.sh
-
-cd ../../../../bin/
-
-options=("${map_list[@]}")
-results=("${index_list[@]}")
-
-source ./configure/multi_menu.sh
-
+echo "${channels_map_index_list[@]}"

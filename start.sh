@@ -4,5 +4,5 @@
 
 cd bin
 bash compability.sh &
-bash manager.sh &
-bash requirements.sh
+bash requirements.sh &
+bash manager.sh

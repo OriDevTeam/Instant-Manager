@@ -6,6 +6,7 @@
 
 # Requirements
  ## On Windows: [MSYS2 MinGW](https://www.msys2.org/), MySQL Server
+ **Suggestions**: [MSYS2 Shortcut Menu](https://github.com/njzhangyifei/msys2-mingw-shortcut-menus)
  - MSYS2 Pacman Packages: 
    * [Python2](https://packages.msys2.org/package/mingw-w64-x86_64-python2?repo=mingw64) - mingw-w64-x86_64-python2
    * [Python2-MySQL](https://packages.msys2.org/package/mingw-w64-x86_64-python2-mysql?repo=mingw64) - mingw-w64-x86_64-python2-mysql

@@ -26,8 +26,6 @@ if [ -z "$channel_number" ]; then
 	read -p 'Whats the channel number?: ' channel_number
 fi
 
-echo -e "Hey"
-
 if [ "$channelType" == "auth" ]; then
 	channel="${channelType}"
 
@@ -42,8 +40,6 @@ else
 	cores=("1" "2" "3" "city")
 fi
 
-echo -e "Low"
-
 if [[ -d ../../configuration/channels/$channel ]] && [[ ! "$skipOverwriteCheck" -eq 1 ]]; then
 	echo -e "\e[36mThe Channel '$channel' directory already exists"
 	echo -ne "Are you sure of removing and recreating? (y/n):\e[0m "
@@ -56,14 +52,11 @@ else
 	exit
 fi
 
-echo -e "xD"
-
-for core_name in "${cores[@]}"
+for core in "${cores[@]}"
 do
-	core="core_${core_name}"
+	core_name="core_${core}"
+	map_allow=$(bash pick_maps.sh $channel)
 	
-	source ./create_channel_core.sh
-	
-	cd ../../configure
+	bash create_channel_core.sh $channel $channel_number $core $core_name $map_allow
 done
 

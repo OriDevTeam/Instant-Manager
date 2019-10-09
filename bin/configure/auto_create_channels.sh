@@ -3,6 +3,12 @@
 locale=$(cd ../settings/settings_values && bash locale)
 map_index="../../shared/locale/$locale/map/index"
 
+if [ -z $map_index ]; then
+	echo "Missing map index on path: $map_index"
+	echo "If this is the first manager run, please check for needed files."
+	exit
+fi
+
 channel_types=(
 	"number"
 	"city"
@@ -50,13 +56,13 @@ else
 fi
 
 
-
-for core_name in "${cores[@]}"
+for core in "${cores[@]}"
 do
-	core="core_${core_name}"
+	core_name="core_${core}"
 	
-	source ./create_channel_core.sh
+	bash create_channel_core.sh $channel $core_name $core
 	
 	cd ../../configure
 done
+
 
