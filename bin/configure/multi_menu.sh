@@ -7,19 +7,19 @@
 options=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 results=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 
-declare -p options results
+declare -p options results >&2
 
 title=$1
 
 menu() {
-	clear
-	echo $title
-    echo -e "\e[36mAvailable options:\e[0m" 
+	clear >&2
+	echo $title >&2
+    echo -e "\e[36mAvailable options:\e[0m" >&2
     for i in ${!options[@]}; do 
-        printf "\e[36m%3d%s)\e[33m %25s - \e[32m%2s\n\e[0m" $((i+1)) "${choices[i]:- }" "${options[i]}" "${results[i]}"
+        printf "\e[36m%3d%s)\e[33m %25s - \e[32m%2s\n\e[0m" $((i+1)) "${choices[i]:- }" "${options[i]}" "${results[i]}" >&2
     done
 	
-    if [[ "$msg" ]]; then echo "$msg"; fi
+    if [[ "$msg" ]]; then echo "$msg" >&2; fi
 }
 
 choices=()
