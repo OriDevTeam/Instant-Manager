@@ -1,8 +1,5 @@
 #!/usr/local/bin/bash
 
-title=`cat title.txt`
-echo -e "$title"
-
 unameOut="$(uname -s)"
 case "${unameOut}" in
 	CYGWIN* | MINGW*)	[ $(bash external/is_admin) == 0 ] && echo "warning: adminstrator privileges are required";;

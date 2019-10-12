@@ -7,7 +7,6 @@ select opt in "${options[@]}"
 do
     case $REPLY in
 		1)
-			#echo -e "This operation still requires the maps for each core to be selected"
 			bash auto_create_channels.sh
             break
             ;;

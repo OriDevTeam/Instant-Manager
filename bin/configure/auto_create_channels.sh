@@ -2,6 +2,8 @@
 
 locale=$(cd ../settings/settings_values && bash locale)
 map_index="../../shared/locale/$locale/map/index"
+channel_count=$1
+channel_special_count=$2
 
 if [ -z $map_index ]; then
 	echo "Missing map index on path: $map_index"
@@ -9,60 +11,102 @@ if [ -z $map_index ]; then
 	exit
 fi
 
-channel_types=(
-	"number"
-	"city"
-	"99"
-)
-
-channel_stypes=(
-	"channel"
-	"channel_99"
-	"auth"
-)
-
-for i in $(seq 1 $(cd ../settings/settings_values/ && bash channels_num));
-	while IFS="" read -r p || [ -n "$p" ]
-	do
-		map_number=$(cut -d "	" -f 1 <<< $p)
-		map_channel_type=$(cut -d "	" -f 3 <<< $p)
-		
-		if [[ $map_channel_type == *"99"* ]]; then
-			channelType="channel"
-		elif [ -n "$map_channel_type" ] && [ "$map_channel_type" -eq "$map_channel_type" ] 2>/dev/null; then then
-			channelType="99"
-		else
-			channelType="city"
-		fi
-		
-		bash create_channel.sh channel $i 1
-		
-	done < $map_index
-done
-
-
-if [ "$channelType" == "auth" ]; then
-	channel="${channelType}"
-
-	cores=("main")
-elif [ "$channelType" == "channel_99" ]; then
-	channel="${channelType}_${channel_number}"
-
-	cores=("1" "2" "3")
+if [ -d "../../configuration" ]; then
+	echo -e "\e[36mThe configuration folder already exists"
+	echo -ne "Are you sure of removing and recreating? (y/n):\e[0m "
+	read answer
 else
-	channel="${channelType}_${channel_number}"
-
-	cores=("1" "2" "3" "city")
+	answer="pass"
 fi
 
+if [ "$answer" != "${answer#[Yy]}" ]; then
+	rm -rf ../../configuration
+elif [ "$answer" = "pass" ]; then
+	answer="passed"
+else
+	exit
+fi
 
-for core in "${cores[@]}"
+if [ -z "$channel_count" ]; then
+	read -p 'How many channels to create?: ' channel_count
+fi
+
+if [ -z "$channel_special_count" ]; then
+	read -p 'How many special channels(99) to create?: ' channel_special_count
+fi
+
+channel_normal_index_list=()
+channel_city_index_list=()
+channel_special_index_list=()
+
+while IFS="" read -r p || [ -n "$p" ]
 do
-	core_name="core_${core}"
+	map_number=$(cut -d "	" -f 1 <<< $p)
+	map_channel_type=$(cut -d "	" -f 3 <<< $p)
 	
-	bash create_channel_core.sh $channel $core_name $core
-	
-	cd ../../configure
-done
+	if [[ $map_channel_type == "city" ]]; then
+		channel_city_index_list+=($map_number)
+	elif [[ $map_channel_type == "special" ]]; then
+		channel_special_index_list+=($map_number)
+	else
+		channel_normal_index_list+=($map_number)
+	fi
+done < $map_index
 
 
+CreateChannel()
+{
+	channelType=$1; shift;
+	channelPrefix=$1; shift;
+	channelCount=$1; shift;
+	channelArray=("$@")
+	
+	for ci in $(seq 1 $channelCount)
+	do
+		channel="${channelPrefix}_${ci}"
+		
+		if [ "$channelType" == "city" ]; then
+			cores=("city")
+		elif [ "$channelType" == "special" ]; then
+			cores=("1" "2" "3")
+		else
+			cores=("1" "2" "3")
+		fi
+		
+		idx=0
+		for core in "${cores[@]}"
+		do
+			core_name="core_$core"
+			
+			map_allow_per_core=$(( ${#channelArray[@]} / ${#cores[@]} - 1))
+			map_allow=""
+			
+			indx=$(( $map_allow_per_core * $idx ))
+			
+			for i in $(seq $(( $indx + $idx )) $(( $indx + $map_allow_per_core + $idx )))
+			do
+				if [ -z "${channelArray[i]}" ]; then
+					break
+				fi
+				
+				map_allow=$map_allow" "${channelArray[i]}
+			done
+			
+			
+			if [ -n "$map_allow" ]; then
+				channelNum=$(($idx + 1))
+				bash create_channel_core.sh $channel $channelNum $core $core_name "$map_allow"
+			fi
+			
+			((idx+=1))
+		done
+	done
+}
+
+bash create_db.sh
+bash create_channel.sh "auth" 1 1
+CreateChannel "city" "channel" $channel_count "${channel_city_index_list[@]}"
+CreateChannel "normal" "channel" $channel_count "${channel_normal_index_list[@]}"
+CreateChannel "special" "channel_99" $channel_special_count "${channel_special_index_list[@]}"
+
+echo -e "\e[33mChannels created sucessfully\e[0m"

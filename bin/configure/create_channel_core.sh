@@ -34,7 +34,7 @@ echo "PLAYER_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) player" >> $
 echo "COMMON_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) common" >> $configDir
 echo "LOG_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) log" >> $configDir
 
-if [ "$channel" != "auth" ]; then
+if [ ! -z "$map_allow" ]; then
 	echo "MAP_ALLOW:$map_allow" >> $configDir
 fi
 

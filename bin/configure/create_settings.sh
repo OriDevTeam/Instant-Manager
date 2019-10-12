@@ -31,8 +31,8 @@ else
 	echo -e ""
 fi
 
-read -p 'Base Game Port(where core ports are based): ' base_game_port
-read -p 'Base Game 99 Port(where core ports are based): ' base_game_99_port
+read -p 'Base Game Port(where core ports are based of): ' base_game_port
+read -p 'Base Game 99 Port(where core ports are based of): ' base_game_99_port
 read -p 'Adminpage IP: ' adminpage_ip
 
 echo -ne "Would you like to generate a random password for Adminpage Password? (y/n): "
@@ -85,9 +85,9 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
 	echo "adminpage_password=$adminpage_password" >> $settingsDir
 	echo "mall_url=$mall_url" >> $settingsDir
 	echo "backup_databases=$backup_databases" >> $settingsDir
-	echo "db_bin=db"
-	echo "game_bin=game"
-	echo "qc_bin=qc"
+	echo "db_bin=db" >> $settingsDir
+	echo "game_bin=game" >> $settingsDir
+	echo "qc_bin=qc" >> $settingsDir
 	echo -e "\e[33mSettings saved in $settingsDir\e[0m"
 fi
 

@@ -44,10 +44,15 @@ if [[ -d ../../configuration/channels/$channel ]] && [[ ! "$skipOverwriteCheck" 
 	echo -e "\e[36mThe Channel '$channel' directory already exists"
 	echo -ne "Are you sure of removing and recreating? (y/n):\e[0m "
 	read answer
+else
+	answer="pass"
 fi
+
 
 if [ "$answer" != "${answer#[Yy]}" ] || [[ ! "$skipOverwriteCheck" -eq 1 ]]; then
 	rm -rf ../../configuration/channels/$channel
+elif [ "$answer" = "pass" ]; then
+	answer="passed"
 else
 	exit
 fi
@@ -55,7 +60,10 @@ fi
 for core in "${cores[@]}"
 do
 	core_name="core_${core}"
-	map_allow=$(bash pick_maps.sh $channel)
+	
+	if [ "$channel" != "auth" ]; then
+		map_allow=$(bash pick_maps.sh $channel)
+	fi
 	
 	bash create_channel_core.sh $channel $channel_number $core $core_name $map_allow
 done
