@@ -18,4 +18,7 @@ showMenu() {
 			SelectedItem=${arr[$selectedIndex]}
 		fi
 	done
+	
+	unset selectedIndex
+	unset SelectedItem
 }

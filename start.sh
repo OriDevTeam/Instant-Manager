@@ -7,6 +7,6 @@ cd bin
 title=`cat title.txt`
 echo -e "$title"
 
-bash compability.sh
 bash requirements.sh
+bash compability.sh
 bash manager.sh
