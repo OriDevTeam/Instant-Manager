@@ -18,6 +18,9 @@ do
 			bash create_map_index.sh
 			break
 			;;
+		4)
+			break
+			;;
         *) echo "invalid option $REPLY";;
     esac
 done

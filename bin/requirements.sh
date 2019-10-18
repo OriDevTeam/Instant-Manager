@@ -24,7 +24,7 @@ if (( ${#necessaryFolders[@]} )); then
 		echo " - $folder"
 	done
 	
-	exit
+	exit 1
 fi
 
 popd > /dev/null
@@ -77,7 +77,9 @@ if (( ${#necessaryFiles[@]} )); then
 		echo " - $file"
 	done
 	
-	exit
+	exit 1
 fi
 
 popd > /dev/null
+
+exit 0

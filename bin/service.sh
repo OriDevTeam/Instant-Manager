@@ -7,7 +7,6 @@ select opt in "${options[@]}"
 do
     case $REPLY in
         1)
-			#echo "$PWD"
 			bash start.sh
             break
             ;;

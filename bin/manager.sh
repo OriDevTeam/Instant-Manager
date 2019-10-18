@@ -18,13 +18,14 @@ PS3='What to manage?: '
 options=("Service" "Questing" "Configure" "Backups" "Quit")
 select opt in "${options[@]}"
 do
+	echo ""
     case $REPLY in
         1)
 			bash service.sh
             break
             ;;
         2)
-			bash quest.sh
+			bash questing.sh
             break
             ;;
         3)
@@ -42,4 +43,6 @@ do
     esac
 done
 
-bash external/winkill $playerPid
+if [ ! -z $playedPid ]; then
+	bash external/winkill $playerPid
+fi

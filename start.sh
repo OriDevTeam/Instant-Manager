@@ -8,5 +8,16 @@ title=`cat title.txt`
 echo -e "$title"
 
 bash requirements.sh
-bash compability.sh
-bash manager.sh
+reqs="$?"
+if [ "$reqs" == "0" ]; then
+	bash compability.sh
+else
+	exit 1
+fi
+
+comp=$?
+if [ "$comp" == "0" ]; then
+	bash manager.sh
+else
+	exit 1
+fi

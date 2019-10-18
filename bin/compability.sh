@@ -35,7 +35,7 @@ if [ -z $bash ]; then
 			echo "There is not enough permissions to run the following command:"
 			echo "$install_cmd"
 			echo "Please run the menu the first time with enough permissions"
-			exit
+			exit 1
 		else
 			echo "Installing Bash"
 			$install_cmd_args
@@ -43,3 +43,5 @@ if [ -z $bash ]; then
 	fi
 	
 fi
+
+exit 0
