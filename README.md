@@ -14,11 +14,11 @@
    * [rsync](https://packages.msys2.org/base/rsync) - rsync
  ## On Linux: MySQL Server
  - FreeBSD pkg Packages: 
-   * Bash Python2 Python2-MySQL
+   * Bash rsync Python2 Python2-MySQL
    * mpg123(optional)
    
  - Debian apt-get Packages:
-   * python2.7 python-pymysql
+   * rsync python2.7 python-pymysql
    * mpg123(optional)
  
  # Installation
@@ -34,4 +34,9 @@
  - item_proto.txt
  - mob_names.txt
  - mob_proto.txt
+ 
+ Next, create a folder called envs/<operative_system_name> and copy the following the files:
+ - game
+ - db
+ - qc
  
