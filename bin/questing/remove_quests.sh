@@ -23,7 +23,7 @@ if [ -z $quests ]; then
 	popd > /dev/null
 
 	title="Wich quests to remove?"
-	quests=$(bash ../configure/multi_menu.sh "${#installedQuests[@]}" "${installedQuests[@]}" "${#installedQuests[@]}" "${installedQuests[@]}" "$title")
+	quests=$(bash ../utilities/multi_menu.sh "${#installedQuests[@]}" "${installedQuests[@]}" "${#installedQuests[@]}" "${installedQuests[@]}" "$title")
 	quests=($(echo "$quests" | tr ',' '\n'))
 fi
 

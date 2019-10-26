@@ -51,18 +51,19 @@ if [ "$DATABASES" == "" ]; then
 	exit 1
 fi
 
+available=$(bash mysql_available "mysql")
+if [[ ! $available == 1 ]]; then
+	echo -e "Database is unavailable"
+	exit
+fi
+
 # Dump and compress
 for db in $DATABASES
 do
-	available=$(bash mysql_available $db)
-	if [[ $available == 1 ]]; then
-		FILE=$db.gz
-		echo -e "\e[32mDumping $db\e[0m"
-		mkdir -p $LOCAL_FOLDER/$FILETIME/
-		bash mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
-	else
-		echo -e "Database $db is unavailable"
-	fi
+	FILE=$db.gz
+	echo -e "\e[32mDumping $db\e[0m"
+	mkdir -p $LOCAL_FOLDER/$FILETIME/
+	bash mysql_dump $db | gzip -9 > $LOCAL_FOLDER/$FILETIME/$FILE
 done
 
 # Transfer all backup files to remote host

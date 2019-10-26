@@ -3,7 +3,8 @@ channel=$1
 channel_number=$2
 core=$3
 core_name=$4
-map_allow=$5
+base_num=$5
+map_allow=$6
 
 mkdir -p ../../configuration/channels/$channel/$core_name
 cd ../../configuration/channels/$channel/$core_name
@@ -26,8 +27,17 @@ echo "# General Settings #" >> $configDir
 echo "HOSTNAME: "$channel"_"$core_name >> $configDir
 echo "CHANNEL: $channel_number" >> $configDir
 echo "BIND_IP: $(bash bind_ip)" >> $configDir
-echo "PORT: $(($(bash base_game_port) + (10 * $channel_number) + $core))" >> $configDir
-echo "P2P_PORT: $(($(bash base_game_port) + (100 * $channel_number) + (10 * $channel_number) + $core))" >> $configDir
+
+if [ $channel == "auth" ]; then
+	port="20000"
+	p2p_port="20001"
+else
+	port=$(($(bash base_game_port) + (100 * $channel_number) + $base_num + $core))
+	p2p_port=$(($(bash base_game_port) + (1000 * $channel_number) + $base_num + $core))
+fi
+
+echo "PORT: $port" >> $configDir
+echo "P2P_PORT: $p2p_port" >> $configDir
 echo "DB_ADDR: $(bash db_ip)" >> $configDir
 echo "DB_PORT: $(bash db_port)" >> $configDir
 echo "PLAYER_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) player" >> $configDir

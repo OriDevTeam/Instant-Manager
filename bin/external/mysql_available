@@ -2,7 +2,7 @@
 
 user=$(cd ../settings/settings_values/ && bash db_user)
 password=$(cd ../settings/settings_values/ && bash db_password)
-db=$1
+db="mysql"
 
 mysqlDir1=$(wmic service MySQL get PathName | cut -d$'\n' -f2)
 mysqlDir2=$(echo "$mysqlDir1" | cut -f 2 -d '"')
@@ -18,4 +18,4 @@ sql="SHOW DATABASES LIKE '$db';"
 cd "$mysqlDir4" &&
 connection="$(echo "$sql" | cmd /c "cmd /c mysql.exe -u $user --password=$password $db")"
 
-[[ -z $connection ]] && echo -e 0 || echo -e 1
+[[ $connection == "mysql" ]] && echo -e 1 || echo -e 0

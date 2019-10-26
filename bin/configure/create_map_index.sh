@@ -19,7 +19,7 @@ core_types=(
 
 pushd "../../shared/locale/$locale/map/" > /dev/null
 
-maps=(*/)
+maps=(*/*/)
 maps=("${maps[@]%/}")
 
 popd > /dev/null
@@ -38,7 +38,7 @@ do
 		echo -e "\e[32mWhat's the type of core for this map?\e[0m"
 		
 		
-		source ./choice_menu.sh
+		source ../utilities/choice_menu.sh
 		showMenu ${core_type_names[@]}
 		
 		mapsInfo+=("${prompt}:${map}:${core_types[$selectedIndex]}")

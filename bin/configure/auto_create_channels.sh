@@ -94,8 +94,18 @@ CreateChannel()
 			
 			
 			if [ -n "$map_allow" ]; then
-				channelNum=$(($idx + 1))
-				bash create_channel_core.sh $channel $channelNum $core $core_name "$map_allow"
+				baseNum=0
+				if [ $channelPrefix == "channel_99" ]; then
+					baseNum=70
+				fi
+				
+				if [ ! $core == "city" ]; then
+					coreNum=$(($idx + 1))
+				else
+					coreNum="0"
+				fi
+				
+				bash create_channel_core.sh $channel $ci $coreNum $core_name $baseNum "$map_allow"
 			fi
 			
 			((idx+=1))
@@ -104,7 +114,7 @@ CreateChannel()
 }
 
 bash create_db.sh
-bash create_channel.sh "auth" 1 1
+bash create_channel.sh "auth" 1 0
 CreateChannel "city" "channel" $channel_count "${channel_city_index_list[@]}"
 CreateChannel "normal" "channel" $channel_count "${channel_normal_index_list[@]}"
 CreateChannel "special" "channel_99" $channel_special_count "${channel_special_index_list[@]}"

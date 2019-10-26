@@ -5,6 +5,14 @@ db_binary=$(cd ../settings/settings_values && bash db_bin)
 cores_num=$(cd ../settings/settings_values && bash cores_num)
 
 clear
+
+available=$(bash ../external/mysql_available "mysql")
+if [[ ! $available == 1 ]]; then
+	echo -e "Database Server is unavailable, please be sure the"
+	echo -e "MySQL server is running or configuration is correct"
+	exit
+fi
+
 echo -e "Starting Server"
 echo -e ""
 
@@ -17,7 +25,7 @@ start_core()
 	folder=$2
 	p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
 	#bash ../../../../bin/service/clean &
-	bash ../../../../bin/service/on.sh &
+	bash ../../../../bin/service/on.sh "$p_text" &
 	
 	elapsed=0
 	

@@ -21,7 +21,10 @@ fi
 
 read -p 'Locale folder name: ' locale
 read -p 'Bind IP: ' bind_ip
-read -p 'SQL Database IP: ' db_ip
+read -p 'SQL Database IP(leave empty for default localhost): ' db_ip
+if [ -z $db_ip ]; then
+	db_ip="localhost"
+fi
 read -p 'SQL Database Port(leave empty for default 29999): ' db_port
 if [ -z $db_port ]; then
 	db_port="29999"
@@ -98,7 +101,7 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
 	echo "channels=1" >> $settingsDir
 	echo "channels_99=1" >> $settingsDir
 	echo "cores=4" >> $settingsDir
-	echo "bind_ip=$db_ip" >> $settingsDir
+	echo "bind_ip=$bind_ip" >> $settingsDir
 	echo "db_ip=$db_ip" >> $settingsDir
 	echo "db_port=$db_port" >> $settingsDir
 	echo "db_user=$db_user" >> $settingsDir

@@ -16,7 +16,7 @@ channel_stypes=(
 )
 
 if [ -z "$channelType" ]; then
-	source ./choice_menu.sh
+	source ../utilities/choice_menu.sh
 	showMenu ${channel_types[@]}
 
 	channelType="${channel_stypes[$selectedIndex]}"
@@ -61,8 +61,12 @@ for core in "${cores[@]}"
 do
 	core_name="core_${core}"
 	
-	if [ "$channel" != "auth" ]; then
+	baseNum=0
+	if [ "$channelType" != "auth" ]; then
 		map_allow=$(bash pick_maps.sh $channel)
+		core="0"
+	elif [ "$channelType" == "channel_99" ]; then
+		baseNum=70
 	fi
 	
 	bash create_channel_core.sh $channel $channel_number $core $core_name $map_allow

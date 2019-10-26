@@ -22,7 +22,6 @@ do
 	for core in ${cores[@]}
 	do
 		cd $core
-		sleep 2
 		
 		if [ -d logs ]; then
 			echo "Adding $channel $core logs"

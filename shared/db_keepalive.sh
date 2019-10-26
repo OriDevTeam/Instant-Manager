@@ -1,4 +1,5 @@
 #!/bin/sh
+name=$1
 
 DB_BIN=$(cd ../../../../bin/settings/settings_values && sh db_bin)
 ENV_PATH=$(cd ../../../../bin/settings/settings_values && sh env_path)
@@ -22,7 +23,7 @@ while ( : ) do
 	echo "autogame starting db $DATE" >> syslog.txt
 	echo "running" $DB_BIN >> syslog.txt
 	
-	exec ../../../../shared/envs/$ENV_PATH/$DB_BIN
+	bash -c "exec -a $name ../../../../shared/envs/$ENV_PATH/$DB_BIN"
   
 	if [ -r $DB_BIN.core ]; then
 		mv $DB_BIN.core cores/core-$DATE
@@ -47,4 +48,4 @@ while ( : ) do
 
 done
 
-sh keepalive.sh &
+sh keepalive.sh "$name" &

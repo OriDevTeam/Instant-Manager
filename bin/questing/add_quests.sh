@@ -36,7 +36,7 @@ if [ -z $quests ]; then
 	done
 
 	title="Wich quests to add?"
-	quests=$(bash ../configure/multi_menu.sh "${#availableQuests[@]}" "${availableQuests[@]}" "${#availableQuestNames[@]}" "${availableQuestNames[@]}" "$title")
+	quests=$(bash ../utilities/multi_menu.sh "${#availableQuests[@]}" "${availableQuests[@]}" "${#availableQuestNames[@]}" "${availableQuestNames[@]}" "$title")
 	quests=($(echo "$quests" | tr ',' '\n'))
 	echo ""
 else

@@ -1,4 +1,5 @@
 #!/bin/sh
+name=$1
 
 GAME_BIN=$(cd ../../../../bin/settings/settings_values && sh game_bin)
 ENV_PATH=$(cd ../../../../bin/settings/settings_values && sh env_path)
@@ -19,10 +20,10 @@ while ( : ) do
 		mv syserr.txt logs/$DATE/syserr.txt
 	fi
 	
-	echo "autogame starting db $DATE" >> syslog.txt
+	echo "autogame starting game $DATE" >> syslog.txt
 	echo "running" $GAME_BIN >> syslog.txt
 	
-	exec ../../../../shared/envs/$ENV_PATH/$GAME_BIN
+	bash -c "exec -a $name ../../../../shared/envs/$ENV_PATH/$GAME_BIN"
   
 	if [ -r $GAME_BIN.core ]; then
 		mv $GAME_BIN.core cores/core-$DATE
@@ -47,4 +48,4 @@ while ( : ) do
 
 done
 
-sh keepalive.sh &
+sh keepalive.sh "$name" &
