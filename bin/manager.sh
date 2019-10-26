@@ -15,7 +15,7 @@ if [ ! -v $mpg123 ]; then
 fi
 
 PS3='What to manage?: '
-options=("Service" "Questing" "Configure" "Backups" "Quit")
+options=("Service" "Questing" "Configure" "Backups" "Update" "Quit")
 select opt in "${options[@]}"
 do
 	echo ""
@@ -37,6 +37,10 @@ do
 			break
             ;;
         5)
+			bash update.sh
+			break
+            ;;
+		6)
 			break
             ;;
         *) echo "invalid option $REPLY";;
