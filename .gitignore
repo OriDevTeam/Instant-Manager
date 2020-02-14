@@ -7,3 +7,4 @@ configuration/
 shared/*
 !shared/db_keepalive.sh
 !shared/game_keepalive.sh
+!shared/settings/default/
