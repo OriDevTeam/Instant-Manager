@@ -1,0 +1,2 @@
+port::echo "PORT: $(($(bash get_setting.sh channels base_game_port) + $(echo 100 \* $channel_number | bc -l) + $base_num + $core))"::
+p2p_port::echo "P2P_PORT: $(($(bash get_setting.sh channels base_game_port) + $(echo 1000 \* $channel_number | bc -l) + $base_num + $core))"::

@@ -1,0 +1,5 @@
+client_heart_fps::echo "CLIENT_HEART_FPS = 25"::
+backup_limit_sec::echo "BACKUP_LIMIT_SEC = 3600"::
+item_id_range::echo "ITEM_ID_RANGE = 2000000000 2100000000"::
+player_id_start::echo "PLAYER_ID_START = 100"::
+player_delete_level_limit::echo "PLAYER_DELETE_LEVEL_LIMIT = 120"::

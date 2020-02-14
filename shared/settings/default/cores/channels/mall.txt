@@ -1,0 +1,3 @@
+mall_url::echo "MALL_URL: $(bash get_setting.sh channels mall_url)"::
+adminpage_ip::echo "ADMINPAGE_IP: $(bash get_setting.sh channels adminpage_ip)"::
+adminpage_password::echo "ADMINPAGE_PASSWORD: $(bash get_setting.sh channels adminpage_password)"::

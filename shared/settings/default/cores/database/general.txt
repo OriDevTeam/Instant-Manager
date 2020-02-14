@@ -1,0 +1,7 @@
+welcome_msg::echo 'WELCOME_MSG = "Database Core Initialized"'::
+bind_port::echo "BIND_PORT = $(bash get_setting.sh database db_port)"::
+sql_account::echo "SQL_ACCOUNT = \"$(bash get_setting.sh database db_ip) account $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) 0\""::
+sql_player::echo "SQL_PLAYER = \"$(bash get_setting.sh database db_ip) player $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) 0\""::
+sql_common::echo "SQL_COMMON = \"$(bash get_setting.sh database db_ip) common $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) 0\""::
+sql_hotbackup::echo "SQL_HOTBACKUP = \"$(bash get_setting.sh database db_ip) hotbackup $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) 0\""::
+table_postfix::echo "TABLE_POSTFIX = \"\""::

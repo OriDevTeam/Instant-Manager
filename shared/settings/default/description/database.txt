@@ -1,0 +1,5 @@
+db_ip:SQL Database IP:echo "localhost"
+db_port:SQL Database Port:echo "29999"
+db_user:SQL Database User:echo "root"
+db_password:SQL Database User:echo "password"
+game_databases:Game Databases:echo "account common log player"

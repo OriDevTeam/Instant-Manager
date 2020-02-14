@@ -1,0 +1,6 @@
+bind_ip:Bind IP:echo "localhost"
+base_game_port:Base Game Port:echo "20000"
+base_game_99_port:Base Game 99 Port:echo "20000"
+adminpage_ip:Adminpage IP:echo "localhost"
+adminpage_password:Adminpage Password:echo "password"
+mall_url:Mall URL:echo "localhost"

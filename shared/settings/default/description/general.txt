@@ -1,0 +1,9 @@
+environment:Environment folder name:uname -o
+locale:Locale folder name:echo "english"
+db_bin:DB binary name:echo "db"
+game_bin:Game binary name:echo "game"
+qc_bin:QC binary name:echo "qc"
+syslog_name:Syslog file name:echo "syslog"
+syserr_name:Syserr:echo "syserr"
+backup_databases:Backup Databases:echo "account common log player"
+debugger:Debugger Name:echo "lldb"

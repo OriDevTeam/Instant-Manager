@@ -1,0 +1,9 @@
+environment:freebsd:1:str:
+locale:english:1:str:
+db_bin:db:1:str:
+game_bin:game:1:str:
+qc_bin:qc:1:str:
+syslog_name:syslog:1:str:
+syserr_name:syserr:1:str:
+backup_databases:account common log hotbackup player:1:str:
+debugger:lldb:1:str:

@@ -1,0 +1,2 @@
+save_event_second_cycle::echo "SAVE_EVENT_SECOND_CYCLE: 180"::
+ping_event_second_cycle::echo "PING_EVENT_SECOND_CYCLE: 180"::

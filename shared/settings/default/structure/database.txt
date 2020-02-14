@@ -1,0 +1,5 @@
+db_ip:localhost:1:str:
+db_port:localhost:1:int:
+db_user:root:1:str:
+db_password:password:1:pw:
+game_databases:account common log hotbackup player:1:str:
