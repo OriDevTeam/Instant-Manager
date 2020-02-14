@@ -1,6 +1,6 @@
 #!bin/bash
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings && bash get_setting.sh general locale)
 map_index_file="../../shared/locale/$locale/map/index"
 
 mapsInfo=()

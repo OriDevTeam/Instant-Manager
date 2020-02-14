@@ -5,10 +5,13 @@ echo -e " \e[32mOnline\e[0m|\e[31mOffline\e[0m|\e[33mMalfunction\e[0m|\e[35mUnkn
 echo -e "note: press ctrl+c to skip status check"
 trap "echo -e ''; exit;" SIGINT SIGTERM
 
-game_binary=$(cd ../settings/settings_values && bash game_bin)
-db_binary=$(cd ../settings/settings_values && bash db_bin)
-cores_num=$(cd ../settings/settings_values && bash cores_num)
+pushd "../settings" > /dev/null
 
+game_binary=$(bash get_setting.sh game_bin)
+db_binary=$(bash get_setting.sh db_bin)
+cores_num=$(bash get_setting.sh cores_num)
+
+popd > /dev/null
 
 CheckStatus()
 {
@@ -38,7 +41,7 @@ CheckStatus()
 				#echo $PWD
 				corePath=$PWD
 				
-				status=$(cd ../../../../bin/service && bash test_core "$corePath" $binary)
+				status=$(cd ../../../../bin/service && bash cores/check_core "$corePath" $binary)
 				case $status in
 					0) echo -ne " \e[31m$core\e[0m";;
 					1) echo -ne " \e[32m$core\e[0m";;
@@ -71,4 +74,3 @@ channelsDir="channels/"
 CheckStatus $dbDir "DB" $db_binary
 CheckStatus $channelsDir "Channels" $game_binary
 
-#cd ../../bin/

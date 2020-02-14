@@ -4,8 +4,8 @@
 # And fill both with same number of elements
 # Output will be written in arrays map_list and index_list 
 
-pushd "../settings/settings_values/" > /dev/null
-locale=$(bash locale)
+pushd "../settings/" > /dev/null
+locale=$(bash get_setting.sh general locale)
 popd > /dev/null
 
 pushd "../../shared/locale/$locale/map/" > /dev/null

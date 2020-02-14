@@ -64,11 +64,12 @@ do
 	baseNum=0
 	if [ "$channelType" != "auth" ]; then
 		map_allow=$(bash pick_maps.sh $channel)
-		core="0"
 	elif [ "$channelType" == "channel_99" ]; then
 		baseNum=70
+	else
+		core="0"
 	fi
 	
-	bash create_channel_core.sh $channel $channel_number $core $core_name $map_allow
+	bash create_channel_core.sh $channel $channel_number $core $core_name $baseNum $map_allow
 done
 

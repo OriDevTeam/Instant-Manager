@@ -10,6 +10,7 @@ mkdir -p ../../configuration/channels/$channel/$core_name
 cd ../../configuration/channels/$channel/$core_name
 
 mkdir -p mark
+mkdir -p log
 
 bash ../../../../bin/external/link locale ../../../../shared/locale
 bash ../../../../bin/external/link data ../../../../shared/data
@@ -21,60 +22,57 @@ configDir=../../../configuration/channels/$channel/$core_name/CONFIG
 
 cd ../../../../bin/
 
-cd settings/settings_values/
+pushd "settings/" > /dev/null
 
-echo "# General Settings #" >> $configDir
-echo "HOSTNAME: "$channel"_"$core_name >> $configDir
-echo "CHANNEL: $channel_number" >> $configDir
-echo "BIND_IP: $(bash bind_ip)" >> $configDir
+settingsDir="settings_folder.txt"
+settingsName=$(awk 'NR==1 {print; exit}' $settingsDir)
+
+if [ -z $settingsName ]; then
+	echo "No Settings Name defined"
+	exit 0
+fi
+
+echo "Creating Channel '$channel' '$core_name' Configuration..."
+
+
+paths=("")
 
 if [ $channel == "auth" ]; then
-	port="20000"
-	p2p_port="20001"
+	paths+=("auth")
 else
-	port=$(($(bash base_game_port) + (100 * $channel_number) + $base_num + $core))
-	p2p_port=$(($(bash base_game_port) + (1000 * $channel_number) + $base_num + $core))
+	paths+=("game")
 fi
 
-echo "PORT: $port" >> $configDir
-echo "P2P_PORT: $p2p_port" >> $configDir
-echo "DB_ADDR: $(bash db_ip)" >> $configDir
-echo "DB_PORT: $(bash db_port)" >> $configDir
-echo "PLAYER_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) player" >> $configDir
-echo "COMMON_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) common" >> $configDir
-echo "LOG_SQL: $(bash db_ip) $(bash db_user) $(bash db_password) log" >> $configDir
+coreDir="../../configuration/channels/$channel/$core_name/CONFIG"
 
-if [ ! -z "$map_allow" ]; then
-	echo "MAP_ALLOW:$map_allow" >> $configDir
-fi
+for path in "${paths[@]}"; do
+	
+	pushd "../../shared/settings/$settingsName/cores/channels/$path" > /dev/null
+	
+	coreSettingsAvailable=()
+	configFiles=$(ls -p | grep -v /)
+	for config in ${configFiles[@]}; do coreSettingsAvailable+=("${config%.txt}"); done
+	
+	popd > /dev/null
+	
+	for coreSetting in "${coreSettingsAvailable[@]}"
+	do
+		availableSettings=($(bash list_available_cores_settings.sh "channels/$path" "$coreSetting"))
+		
+		echo "// ${coreSetting^} Settings //" >> $coreDir
+		
+		for setting in "${availableSettings[@]}"
+		do
+			configurationString="$(bash get_cores_setting.sh "channels/$path" "$coreSetting" "$setting")"
+			configurationString=$(eval "$configurationString")
+			echo "$configurationString" >> $coreDir
+		done
+		
+		echo "" >> $coreDir
+		
+	done
+done
 
-echo "LOCALE_SERVICE: $(bash locale)" | tr a-z A-Z >> $configDir
-echo "" >> $configDir
-echo "# Sync Settings #" >> $configDir
-echo "SAVE_EVENT_SECOND_CYCLE: 180" >> $configDir
-echo "PING_EVENT_SECOND_CYCLE: 180" >> $configDir
-echo "" >> $configDir
-echo "# Mall Settings #" >> $configDir
-echo "MALL_URL: $(bash mall_url)" >> $configDir
-echo "ADMINPAGE_IP: $(bash adminpage_ip)" >> $configDir
-echo "ADMINPAGE_PASSWORD: $(bash adminpage_password)" >> $configDir
-echo "" >> $configDir
-echo "# Game Settings #" >> $configDir
-echo "VIEW_RANGE: 6000" >> $configDir
-
-: '
-TABLE_POSTFIX: 
-mark_server 1
-mark_min_level 1
-traffic_profile: 1
-user_limit: 1000
-speedhack_limit_count: 10
-speedhack_limit_bonus: 10
-spam_block_duration: 10
-spam_block_score: 10
-spam_block_reload_cycle: 10
-spam_block_max_level: 90
-protect_normal_player: 1
-'
+popd > /dev/null
 
 echo -e "Created '$channel' '$core_name'"

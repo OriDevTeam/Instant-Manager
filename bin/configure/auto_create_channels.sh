@@ -1,6 +1,6 @@
 #!/bin/bash
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings/ && bash get_setting.sh general locale)
 map_index="../../shared/locale/$locale/map/index"
 channel_count=$1
 channel_special_count=$2

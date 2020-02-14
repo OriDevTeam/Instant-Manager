@@ -22,7 +22,7 @@ fi
 DAY=$(date +"%Y-%m-%d")
 FILETIME=$(date +"%Y-%m-%d.%H")
 
-#cd settings/settings_values/
+#cd settings/
 # Local backup folder (no trailing slash)
 LOCAL_FOLDER="../../backups/sql"
 

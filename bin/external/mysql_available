@@ -1,21 +1,34 @@
 #!/bin/bash
 
-user=$(cd ../settings/settings_values/ && bash db_user)
-password=$(cd ../settings/settings_values/ && bash db_password)
-db="mysql"
+user=$(cd ../settings/ && bash get_setting.sh database db_user)
+password=$(cd ../settings/ && bash get_setting.sh database db_password)
+db=$1
 
-mysqlDir1=$(wmic service MySQL get PathName | cut -d$'\n' -f2)
-mysqlDir2=$(echo "$mysqlDir1" | cut -f 2 -d '"')
-mysqlDir3=$(cygpath -u "${mysqlDir2}")
-mysqlWin=$(cygpath -m "${mysqlDir3}")
-mysqlWin2=${mysqlWin%/*}
-mysqlDir4=${mysqlDir3%/*}
+osName="$(uname -s)"
+case "${osName}" in
+	CYGWIN* | MINGW*)
+		mysqlDir1=$(wmic service MySQL get PathName | cut -d$'\n' -f2)
+		mysqlDir2=$(echo "$mysqlDir1" | cut -f 2 -d '"')
+		mysqlDir3=$(cygpath -u "${mysqlDir2}")
+		mysqlWin=$(cygpath -m "${mysqlDir3}")
+		mysqlWin2=${mysqlWin%/*}
+		mysqlDir4=${mysqlDir3%/*}
 
-fallbackDir=$PWD
+		fallbackDir=$PWD
 
-sql="SHOW DATABASES LIKE '$db';"
+		sql="SHOW DATABASES LIKE '$db';"
 
-cd "$mysqlDir4" &&
-connection="$(echo "$sql" | cmd /c "cmd /c mysql.exe -u $user --password=$password $db")"
+		cd "$mysqlDir4" &&
+		connection="$(echo "$sql" | cmd /c "cmd /c mysql.exe -u $user --password=$password $db")"
 
-[[ $connection == "mysql" ]] && echo -e 1 || echo -e 0
+		[[ $connection == "mysql" ]] && echo -e 1 || echo -e 0
+	;;
+	
+	FreeBSD*)
+		connection=$(mysql --user="$user" --password="$password" --database="$db" --execute="SHOW DATABASES LIKE '$db';")
+		[[ "$connection" == *"$db"* ]] && echo -e 1 || echo -e 0
+	;;
+	
+	*)          		echo -e None;;
+esac
+

@@ -25,7 +25,5 @@ do
 	core="core_${core_name}"
 	
 	source ./create_db_core.sh
-	
-	cd ../../configure
 done
 

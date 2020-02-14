@@ -1,0 +1,32 @@
+#!/bin/bash
+binary_name=$1
+folder=$2
+
+p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
+corePath=$PWD
+
+bash ../../../../bin/service/off.sh "$p_text" &
+
+elapsed=0
+
+while [[ $(cd ../../../../bin/service/ && bash cores/check_core "$corePath" $binary_name) == 1 ]]; do
+	elapsed=$(($elapsed+1))
+
+	#clear
+	echo -e "Waiting $p_text termination" >&2
+	echo -e "$elapsed seconds elapsed..." >&2
+	echo
+	
+	delayBeforeFail=5
+	if (( $elapsed >= $delayBeforeFail ))
+	then
+		echo -e "\e[31m$p_text wasn't terminated properly\e[0m" >&2
+		echo -e "\e[33mCheck $corePath syserr/syslog or logs above for information.\e[0m" >&2
+		exit 0
+	fi
+	
+	sleep 1
+done
+
+echo -e "\e[32m$p_text terminated\e[0m" >&2
+exit 1

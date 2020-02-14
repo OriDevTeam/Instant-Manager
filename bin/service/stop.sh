@@ -1,8 +1,12 @@
 #!/bin/bash
 
-game_binary=$(cd ../settings/settings_values && bash game_bin)
-db_binary=$(cd ../settings/settings_values && bash db_bin)
-cores_num=$(cd ../settings/settings_values && bash cores_num)
+pushd "..settings/" > /dev/null
+
+game_binary=$(bash get_setting.sh general game_bin)
+db_binary=$(bash get_setting.sh general db_bin)
+cores_num=$(bash get_setting.sh general cores_num)
+
+popd > /dev/null
 
 clear
 echo -e "Stopping Server..."
@@ -13,32 +17,39 @@ stop_core()
 	binary_name=$1
 	folder=$2
 	p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
-	bash ../../../../bin/service/off.sh &
+	corePath=$PWD
+	
+	if [[ $(cd ../../../../bin/service/ && bash cores/check_core "$corePath" $binary_name) != 1 ]]; then
+		echo -e "\e[33m$p_text not running\e[0m" >&2
+		return 1
+	fi
+	
+	bash ../../../../bin/service/off.sh "$p_text" &
 	
 	elapsed=0
 	
-	corePath=$PWD
-
-	while [ $(cd ../../../../bin/service && bash test_core "$corePath" $binary_name) == 1 ]; do
-		status=$(cd ../../../../bin/service && bash test_core "$corePath" $binary_name)
-		echo -e "status: $status"
+	while [[ $(cd ../../../../bin/service/ && bash cores/check_core "$corePath" $binary_name) == 1 ]]; do
 		elapsed=$(($elapsed+1))
 
 		#clear
-		echo -e "A aguardar resposta de $p_text"
-		echo -e "$elapsed..."
+		echo -e "Waiting $p_text termination" >&2
+		echo -e "$elapsed seconds elapsed..." >&2
 		echo
-		if [ $elapsed -gt 9 ]
+		
+		delayBeforeFail=5
+		if (( $elapsed >= $delayBeforeFail ))
 		then
-			echo
-			echo -e "O $p_text não responde."
-			echo -e "Pressione CTRL+C para cancelar."
+			echo -e "\e[31m$p_text wasn't terminated properly\e[0m" >&2
+			echo -e "\e[33mCheck $corePath syserr/syslog or logs above for information.\e[0m" >&2
+			return 0
 		fi
+		
 		sleep 1
-		clear
+		#clear
 	done
 	
-	echo "Stopped $p_text"
+	echo -e "\e[32m$p_text terminated\e[0m" >&2
+	return 1
 }
 
 cd ../../configuration/channels
@@ -48,21 +59,49 @@ channels=("${channels[@]%/}")
 
 for channel in ${channels[@]}
 do
-	cd $channel
+	pushd $channel > /dev/null
 	
 	cores=(*/)
 	cores=("${cores[@]%/}")
 	for core in ${cores[@]}
 	do
-		cd $core
-		sleep 2
+		pushd $core > /dev/null
+		
+		sleep 1
 		stop_core "$game_binary" "$channel"_"$core"
-		cd ../
+		sucess=$?
+		[[ $sucess != 1 ]] && exit
+		
+		popd > /dev/null
 	done
-	cd ../
+	
+	popd > /dev/null
 done
 
-cd ../databases/db/core_main
-stop_core "$db_binary" "db"
+## Databases
+cd ../databases
+
+database=(*/)
+database=("${database[@]%/}")
+for database in ${database[@]}
+do
+	pushd $database > /dev/null
+	
+	cores=(*/)
+	cores=("${cores[@]%/}")
+	for core in ${cores[@]}
+	do
+		pushd $core > /dev/null
+		
+		sleep 1
+		stop_core "$db_binary" "$database"_"$core"
+		sucess=$?
+		[[ $sucess != 1 ]] && exit
+		
+		popd > /dev/null
+	done
+	
+	popd > /dev/null
+done
 
 echo -e "The server was turned off."

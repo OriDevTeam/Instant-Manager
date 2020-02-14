@@ -5,7 +5,7 @@ then
 	unameOut="$(uname -s)"
 	case "${unameOut}" in
 		CYGWIN* | MINGW*)	taskkill //F //PID $1 > /dev/null;;
-		FreeBSD*)			kill $1;;
+		FreeBSD*)			pkill -f $1;;
 		#FreeBSD*)			pkill -P $1;;
 		*)          		kill -f $1;;
 	esac

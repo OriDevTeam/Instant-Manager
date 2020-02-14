@@ -1,15 +1,18 @@
 #!/bin/bash
 
-game_binary=$(cd ../settings/settings_values && bash game_bin)
-db_binary=$(cd ../settings/settings_values && bash db_bin)
-cores_num=$(cd ../settings/settings_values && bash cores_num)
+pushd "..settings/" > /dev/null
 
-clear
+game_binary=$(bash get_settings.sh general game_bin)
+db_binary=$(bash get_settings.sh general db_bin)
 
-available=$(bash ../external/mysql_available "mysql")
+popd > /dev/null
+
+#clear
+
+available=$(bash ../external/mysql_available "account")
 if [[ ! $available == 1 ]]; then
 	echo -e "Database Server is unavailable, please be sure the"
-	echo -e "MySQL server is running or configuration is correct"
+	echo -e "MySQL server is running or configuration is correct."
 	exit
 fi
 
@@ -17,7 +20,6 @@ echo -e "Starting Server"
 echo -e ""
 
 sleep 1
-#bash update_db
 
 start_core()
 {
@@ -30,22 +32,29 @@ start_core()
 	elapsed=0
 	
 	corePath=$PWD
-	while [ $(cd ../../../../bin/service && bash test_core "$corePath" $binary_name) == 0 ]; do
+	while [ $(cd ../../../../bin/service && bash cores/check_core "$corePath" $binary_name) == 0 ]; do
 		elapsed=$(($elapsed+1))
 
 		#clear
-		echo -e "A aguardar resposta de $p_text"
-		echo -e "$elapsed..."
+		echo -e "Waiting  $p_text initialization" >&2
+		echo -e "$elapsed seconds elapsed..." >&2
 		echo
-		if [ $elapsed -gt 9 ]
+		
+		delayBeforeFail=5
+		if (( $elapsed >= $delayBeforeFail ))
 		then
-			echo
-			echo -e "O $p_text não responde."
-			echo -e "Pressione CTRL+C para cancelar."
+			bash ../../../../bin/service/cores/stop_core "$binary_name" "$folder"
+			echo -e "\e[31m$p_text wasn't initialized properly\e[0m" >&2
+			echo -e "\e[33mCheck $corePath syserr/syslog or logs above for information.\e[0m" >&2
+			return 0
 		fi
+		
 		sleep 1
 		#clear
 	done
+	
+	echo -e "\e[32m$p_text initialized\e[0m" >&2
+	return 1
 }
 
 cd ../../configuration/
@@ -57,19 +66,26 @@ database=(*/)
 database=("${database[@]%/}")
 for database in ${database[@]}
 do
-	cd $database
+	pushd $database > /dev/null
 	
 	cores=(*/)
 	cores=("${cores[@]%/}")
 	for core in ${cores[@]}
 	do
-		cd $core
-		sleep 2
+		pushd $core > /dev/null
+		
+		sleep 1
 		start_core "$db_binary" "$database"_"$core"
-		cd ../
+		sucess=$?
+		[[ $sucess != 1 ]] && exit
+		
+		popd > /dev/null
 	done
-	cd ../
+	
+	popd > /dev/null
 done
+
+sleep 5
 
 ## Channels
 cd ../channels
@@ -78,18 +94,24 @@ channels=(*/)
 channels=("${channels[@]%/}")
 for channel in ${channels[@]}
 do
-	cd $channel
+	pushd $channel > /dev/null
 	
 	cores=(*/)
 	cores=("${cores[@]%/}")
 	for core in ${cores[@]}
 	do
-		cd $core
-		sleep 2
+		pushd $core > /dev/null
+		
 		start_core "$game_binary" "$channel"_"$core"
-		cd ../
+		sucess=$?
+		[[ $sucess != 1 ]] && exit
+		
+		sleep 2
+		
+		popd > /dev/null
 	done
-	cd ../
+	
+	popd > /dev/null
 done
 
 echo -e "The server is online."

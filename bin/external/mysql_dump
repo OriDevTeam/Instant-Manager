@@ -1,7 +1,7 @@
 #!/bin/bash
 
-user=$(cd ../settings/settings_values/ && bash db_user)
-password=$(cd ../settings/settings_values/ && bash db_password)
+user=$(cd ../settings/ && bash get_setting.sh database db_user)
+password=$(cd ../settings/ && bash get_setting.sh database db_password)
 db=$1
 
 mysqlDir1=$(wmic service MySQL get PathName | cut -d$'\n' -f2)

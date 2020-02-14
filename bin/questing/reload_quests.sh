@@ -1,9 +1,9 @@
 #!/bin/bash
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings/ && bash get_setting.sh general locale)
 questObjectDir="../../shared/locale/$locale/quest/object/state/"
 
-pushd $questObjectDir > /dev/null
+pushd "$questObjectDir" > /dev/null
 
 installedQuests=(*)
 installedQuests=("${installedQuests[@]%/}")

@@ -3,11 +3,11 @@ quests=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 
 declare -p quests 1> /dev/null 2> /dev/null
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings && bash get_setting.sh general locale)
 questObjectDir="../../shared/locale/$locale/quest/object/"
 
 if [ -z $quests ]; then
-	pushd $questObjectDir > /dev/null
+	pushd "$questObjectDir" > /dev/null
 	pushd "state/" > /dev/null
 
 	installedQuests=(*)
@@ -27,7 +27,7 @@ if [ -z $quests ]; then
 	quests=($(echo "$quests" | tr ',' '\n'))
 fi
 
-pushd $questObjectDir > /dev/null
+pushd "$questObjectDir" > /dev/null
 
 for quest in ${quests[@]}
 do

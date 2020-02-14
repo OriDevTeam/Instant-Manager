@@ -14,23 +14,44 @@ bash ../../../../bin/external/link mob_proto.txt ../../../../shared/mob_proto.tx
 configDir=../../../configuration/databases/db/$core/conf.txt
 
 cd ../../../../bin/
-cd settings/settings_values/
 
-echo "// General Settings //" >> $configDir
-echo 'WELCOME_MSG = "Database Core Initialized"' >> $configDir
-echo "BIND_PORT = $(bash db_port)" >> $configDir
-echo "SQL_ACCOUNT = \"$(bash db_ip) account $(bash db_user) $(bash db_password) 0\"" >> $configDir
-echo "SQL_PLAYER = \"$(bash db_ip) player $(bash db_user) $(bash db_password) 0\"" >> $configDir
-echo "SQL_COMMON = \"$(bash db_ip) common $(bash db_user) $(bash db_password) 0\"" >> $configDir
-echo "SQL_HOTBACKUP = \"$(bash db_ip) hotbackup $(bash db_user) $(bash db_password) 0\"" >> $configDir
-echo "TABLE_POSTFIX = \"\"" >> $configDir
-echo "" >> $configDir
-echo "// Other Settings //" >> $configDir
-echo "CLIENT_HEART_FPS = 25" >> $configDir
-echo "BACKUP_LIMIT_SEC = 3600" >> $configDir
-echo "ITEM_ID_RANGE = 2000000000 2100000000" >> $configDir
-echo "PLAYER_ID_START = 100" >> $configDir
-echo "PLAYER_DELETE_LEVEL_LIMIT = 120" >> $configDir
-#echo "Block "Y/QSB7omi36awq4ctpUxuiwRARM="" >> $configDir
+pushd "settings/" > /dev/null
 
-echo -e "Created Database core"
+settingsDir="settings_folder.txt"
+settingsName=$(awk 'NR==1 {print; exit}' $settingsDir)
+
+if [ -z $settingsName ]; then
+	echo "No Settings Name defined"
+	exit 0
+fi
+
+echo "Creating Database Core Configuration..."
+
+pushd "../../shared/settings/$settingsName/cores/database/" > /dev/null
+
+coreSettingsAvailable=()
+for config in *; do coreSettingsAvailable+=("${config%.txt}"); done
+
+popd > /dev/null
+
+configDir="../../configuration/databases/db/$core/conf.txt"
+for coreSetting in "${coreSettingsAvailable[@]}"
+do
+	availableSettings=($(bash list_available_cores_settings.sh database "$coreSetting"))
+	
+	echo "// ${coreSetting^} Settings //" >> $configDir
+	
+	for setting in "${availableSettings[@]}"
+	do
+		configurationString=$(bash get_cores_setting.sh database "$coreSetting" "$setting")
+		configurationString=$(eval $configurationString)
+		echo "$configurationString" >> $configDir
+	done
+	
+	echo ""
+	
+done
+
+popd > /dev/null
+
+echo -e "Created Database Core."

@@ -3,12 +3,12 @@ quests=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 
 declare -p quests 1> /dev/null 2> /dev/null
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings/ && bash get_setting.sh general locale)
 questObjectDir="../../shared/locale/$locale/quest/object/state/"
 questDir="../../shared/locale/$locale/quest/source/"
 
 if [ -z $quests ]; then 
-	pushd $questObjectDir > /dev/null
+	pushd "$questObjectDir" > /dev/null
 
 	installedQuests=(*)
 	installedQuests=("${installedQuests[@]%/}")
@@ -58,10 +58,10 @@ else
 	quests=$availableQuests
 fi
 
-pushd "../settings/settings_values" > /dev/null
+pushd "../settings" > /dev/null
 
-QC_BIN=$(sh qc_bin)
-ENV_PATH=$(sh env_path)
+QC_BIN=$(bash get_setting.sh general qc_bin)
+ENV_PATH=$(sh get_setting.sh general environment)
 
 popd > /dev/null
 

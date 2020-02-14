@@ -29,8 +29,8 @@ fi
 
 popd > /dev/null
 
-## Settings file exist, if not prompt creation
-if [ ! -f "settings/settings.txt" ] || [ ! -d "../configuration" ]; then
+## Settings file exists, if not prompt creation
+if [ ! -f "settings/settings_folder.txt" ]; then
 	echo -e "\e[36mIt seems to be the first time running the manager"
 	echo -ne "Would you like to make configuration? (y/n):\e[0m "
 	read answer
@@ -39,18 +39,31 @@ if [ ! -f "settings/settings.txt" ] || [ ! -d "../configuration" ]; then
 	if [ "$answer" != "${answer#[Yy]}" ]; then
 		pushd "configure/" > /dev/null
 		bash create_settings.sh
-		bash create_map_index.sh
-		bash auto_create_channels.sh
 		popd > /dev/null
 	fi
 fi
 
+## Channel configuration exists, if not prompt creation
+if [ ! -d "../configuration" ]; then
+	echo -ne "\e[36mWould you like to configurate channels? (y/n):\e[0m "
+	read answer
+	echo ""
+	
+	pushd "configure/" > /dev/null
+	bash create_map_index.sh
+	bash auto_create_channels.sh
+	popd > /dev/null
+fi
 
-locale=$(cd settings/settings_values && bash locale)
-env=$(cd settings/settings_values && bash env_path)
-game_bin=$(cd settings/settings_values && bash game_bin)
-db_bin=$(cd settings/settings_values && bash db_bin)
-qc_bin=$(cd settings/settings_values && bash qc_bin)
+pushd "settings/" > /dev/null
+
+locale=$(bash get_setting.sh general locale)
+env=$(bash get_setting.sh general environment)
+game_bin=$(bash get_setting.sh general game_bin)
+db_bin=$(bash get_setting.sh general db_bin)
+qc_bin=$(bash get_setting.sh general qc_bin)
+
+popd > /dev/null
 
 pushd "../" > /dev/null
 
@@ -58,13 +71,12 @@ files=(
 "shared/envs/$env/$game_bin"
 "shared/envs/$env/$db_bin"
 "shared/envs/$env/$qc_bin"
-"shared/locale/$locale/map/index"
 "shared/CMD"
 )
 
 for file in "${files[@]}"
 do
-    if [ ! -f $file ]; then
+    if [ ! -f "$file" ]; then
         necessaryFiles+=($file)
     fi
 done

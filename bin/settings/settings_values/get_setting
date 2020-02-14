@@ -1,3 +1,0 @@
-#!/bin/bash
-value=$echo awk "NR==$1" ../settings.txt | cut -d "=" -f2
-echo $value

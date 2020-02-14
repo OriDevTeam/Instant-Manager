@@ -1,27 +1,19 @@
 #!/bin/sh
 name=$1
 
-GAME_BIN=$(cd ../../../../bin/settings/settings_values && sh game_bin)
-ENV_PATH=$(cd ../../../../bin/settings/settings_values && sh env_path)
+pushd "../../../../bin/settings/" > /dev/null
+
+GAME_BIN=$(bash general game_bin)
+ENV_PATH=$(bash general environment)
+
+popd > /dev/null
 
 while ( : ) do
 	
 	DATE=`date +"%d.%m.%y.%T"`
 	
-	if [ ! -d logs/$DATE ]; then
-		mkdir -p logs/$DATE
-	fi
-	
-	if [ -w syslog.txt ]; then
-		mv syslog.txt logs/$DATE/syslog.txt
-	fi
-	
-	if [ -w syserr.txt ]; then
-		mv syserr.txt logs/$DATE/syserr.txt
-	fi
-	
-	echo "autogame starting game $DATE" >> syslog.txt
-	echo "running" $GAME_BIN >> syslog.txt
+	echo "autogame starting game $DATE" >> syslog
+	echo "running" $GAME_BIN >> syslog
 	
 	bash -c "exec -a $name ../../../../shared/envs/$ENV_PATH/$GAME_BIN"
   
@@ -37,7 +29,7 @@ while ( : ) do
 	fi
 	
 	if [ -r .killscript ]; then
-		echo "autoscript killed $DATE"  >> syslog.txt
+		echo "autoscript killed $DATE"  >> syslog
 		rm .killscript
 		exit
 	fi

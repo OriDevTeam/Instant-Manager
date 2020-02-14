@@ -1,7 +1,11 @@
 #!/bin/bash
 
-game_binary=$(cd ../settings/settings_values && bash game_bin)
-db_binary=$(cd ../settings/settings_values && bash db_bin)
+pushd "../settings" > /dev/null
+
+game_binary=$(bash get_setting.sh general game_bin)
+db_binary=$(bash get_setting.sh general db_bin)
+
+popd > /dev/null
 
 if [ ! -z "$1" -a "$1" != " " ]
 then
@@ -47,8 +51,8 @@ then
 		fi
 
 	else
-		echo -e "Specify db/game core name"
+		echo -e "Specify binary name"
 	fi
 else
-	echo -e "Canceled."
+	echo -e "No arguments provided, please execute as: check_core core_path binary_name"
 fi

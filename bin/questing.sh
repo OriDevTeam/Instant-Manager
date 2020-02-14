@@ -1,10 +1,10 @@
 #!/bin/bash
 cd questing
 
-locale=$(cd ../settings/settings_values && bash locale)
+locale=$(cd ../settings/ && bash get_setting.sh general locale)
 questObjectDir="../../shared/locale/$locale/quest/object/"
 
-pushd $questObjectDir > /dev/null
+pushd "$questObjectDir" > /dev/null
 pushd "state/" > /dev/null
 
 installedQuests=(*)

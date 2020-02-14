@@ -70,11 +70,11 @@ def get_folder(folder):
 	else:
 		return "\"" + folder + "\""
 
-process = subprocess.Popen("cd ../settings/settings_values/ && bash db_ip", stdout=subprocess.PIPE, shell=True)
+process = subprocess.Popen("cd ../settings/ && bash get_setting.sh database db_ip", stdout=subprocess.PIPE, shell=True)
 host = process.communicate()[0]
-process = subprocess.Popen("cd ../settings/settings_values/ && bash db_user", stdout=subprocess.PIPE, shell=True)
+process = subprocess.Popen("cd ../settings/ && bash get_setting.sh database db_user", stdout=subprocess.PIPE, shell=True)
 user = process.communicate()[0]
-process = subprocess.Popen("cd ../settings/settings_values/ && bash db_password", stdout=subprocess.PIPE, shell=True)
+process = subprocess.Popen("cd ../settings/ && bash get_setting.sh database", stdout=subprocess.PIPE, shell=True)
 passwd = process.communicate()[0]
 
 print "Connecting to database player..."

@@ -1,2 +1,0 @@
-#!/bin/bash
-echo -ne $(bash get_setting 9)
