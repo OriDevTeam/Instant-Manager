@@ -30,7 +30,8 @@ fi
 popd > /dev/null
 
 ## Settings file exists, if not prompt creation
-if [ ! -f "settings/settings_folder.txt" ]; then
+settingsFolderNamePath="settings/settings_folder.txt"
+if [ ! -f "$settingsFolderNamePath" ]; then
 	echo -e "\e[36mIt seems to be the first time running the manager"
 	echo -ne "Would you like to make configuration? (y/n):\e[0m "
 	read answer
@@ -40,7 +41,32 @@ if [ ! -f "settings/settings_folder.txt" ]; then
 		pushd "configure/" > /dev/null
 		bash create_settings.sh
 		popd > /dev/null
+	else
+		touch "$settingsFolderNamePath"
+		echo  "default" > "$settingsFolderNamePath"
+		
+		echo -e "\e[32mSettings configuration was set to Default"
+		echo -e "You can modify this later on the Configure/Settings menu\e[0m "
 	fi
+else
+	settingsName=$(awk 'NR==1 {print; exit}' $settingsFolderNamePath)
+	
+	if [ -z "$settingsName" ]; then
+		echo -e "It seems the Settings Folder Name is empty"
+		echo -e "Setting it to Default settings..."
+
+		echo  "default" > "$settingsFolderNamePath"
+	else
+		settingsFolderDir="../shared/settings/$settingsName/"
+		if [ ! -d "$settingsFolderDir" ]; then 
+			echo -e "It seems the Settings Folder '$settingsName' doesn't exist"
+			echo -e "on $settingsFolderDir, so it will be set to Default"
+			
+			echo  "default" > "$settingsFolderNamePath"
+		fi
+	fi
+	
+	echo -e ""
 fi
 
 ## Channel configuration exists, if not prompt creation

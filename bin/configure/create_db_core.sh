@@ -25,7 +25,7 @@ if [ -z $settingsName ]; then
 	exit 0
 fi
 
-echo "Creating Database Core Configuration..."
+echo -e "\e[33mCreating Database Core Configuration...\e[0m"
 
 pushd "../../shared/settings/$settingsName/cores/database/" > /dev/null
 
@@ -35,6 +35,8 @@ for config in *; do coreSettingsAvailable+=("${config%.txt}"); done
 popd > /dev/null
 
 configDir="../../configuration/databases/db/$core/conf.txt"
+touch "$configDir"
+
 for coreSetting in "${coreSettingsAvailable[@]}"
 do
 	availableSettings=($(bash list_available_cores_settings.sh database "$coreSetting"))
@@ -44,12 +46,17 @@ do
 	for setting in "${availableSettings[@]}"
 	do
 		configurationString=$(bash get_cores_setting.sh database "$coreSetting" "$setting")
+		
+		if [ -z "$configurationString" ]; then
+			echo "Exiting Database Core creation..."
+			exit
+		fi
+		
 		configurationString=$(eval $configurationString)
 		echo "$configurationString" >> $configDir
 	done
 	
-	echo ""
-	
+	echo "" >> $configDir
 done
 
 popd > /dev/null

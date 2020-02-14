@@ -32,8 +32,7 @@ if [ -z $settingsName ]; then
 	exit 0
 fi
 
-echo "Creating Channel '$channel' '$core_name' Configuration..."
-
+echo -e "\e[33mCreating Channel '$channel' '$core_name' Configuration...\e[0m"
 
 paths=("")
 
@@ -43,7 +42,8 @@ else
 	paths+=("game")
 fi
 
-coreDir="../../configuration/channels/$channel/$core_name/CONFIG"
+configDir="../../configuration/channels/$channel/$core_name/CONFIG"
+touch $configDir
 
 for path in "${paths[@]}"; do
 	
@@ -59,16 +59,22 @@ for path in "${paths[@]}"; do
 	do
 		availableSettings=($(bash list_available_cores_settings.sh "channels/$path" "$coreSetting"))
 		
-		echo "// ${coreSetting^} Settings //" >> $coreDir
+		echo "// ${coreSetting^} Settings //" >> $configDir
 		
 		for setting in "${availableSettings[@]}"
 		do
 			configurationString="$(bash get_cores_setting.sh "channels/$path" "$coreSetting" "$setting")"
+			
+			if [ -z "$configurationString" ]; then
+				echo "Exiting Channel Core creation..."
+				exit
+			fi
+			
 			configurationString=$(eval "$configurationString")
-			echo "$configurationString" >> $coreDir
+			echo "$configurationString" >> $configDir
 		done
 		
-		echo "" >> $coreDir
+		echo "" >> $configDir
 		
 	done
 done

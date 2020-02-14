@@ -6,7 +6,7 @@ folderSettingsPath="settings_folder.txt"
 
 if [ ! -f $folderSettingsPath ]; then
 	echo "Settings Folder file not found" >&2
-	echo 0
+	echo ""
 	exit
 fi
 
@@ -14,7 +14,7 @@ settingsFolderPath=$(awk 'NR==1 {print; exit}' $folderSettingsPath)
 
 if [ -z $settingsFolderPath ]; then
 	echo "Settings Folder File $settingsFolderPath not found" >&2
-	echo 0
+	echo ""
 	exit
 fi
 
@@ -22,7 +22,7 @@ settingsFilePath="../../shared/settings/${settingsFolderPath}/cores/${coreType}/
 
 if [ ! -f "$settingsFilePath" ]; then
 	echo "Core Settings File $settingsFilePath not found" >&2
-	echo 0
+	echo ""
 	exit
 fi
 

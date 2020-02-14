@@ -1,40 +1,41 @@
 #!/bin/bash
 settingsDir="../settings/settings_folder.txt"
-settingsFolderPath=$(awk 'NR==1 {print; exit}' $settingsDir)
+settingsFolderDir="../../shared/settings/"
 
-if [ -f $settingsDir ]; then
-	
-	settingsFolderDir="../../shared/settings/"
-	settingsFolder=$(awk 'NR==1 {print; exit}' $settingsDir)
+if [ -f "$settingsDir" ]; then
+ 	settingsFolder=$(awk 'NR==1 {print; exit}' $settingsDir)
+else
+	touch "$settingsDir"
+	settingsFolder="default"
+	echo "$settingsFolder" > "$settingsDir"
+fi
 		
-	echo -ne "\e[36mWhats the new settings name?:\e[0m "
-	read settingsName
+echo -ne "\e[36mWhats the new settings name?:\e[0m "
+read settingsName
 
-	if [ -z $settingsName ]; then
-		echo "No settings name specified, stopping..."
-		exit 0
-	fi
+if [ -z $settingsName ]; then
+	echo "No settings name specified, stopping..."
+	exit 0
+fi
+
+if [ ! -z $settingsFolder ] && [ -d "${settingsFolderDir}${settingsName}/" ]; then
+	if [ $settingsFolder != "default" ] || [ $settingsName != "default" ]; then
 	
-	if [ ! -z $settingsFolder ] && [ -d "${settingsFolderDir}${settingsName}/" ]; then
-		if [ $settingsFolder != "default" ] || [ $settingsName != "default" ]; then
+		echo -e "\e[36mThe Settings folder '$settingsName' already exists"
+		echo -ne "Are you sure of removing and recreating? (y/n):\e[0m "
 		
-			echo -e "\e[36mThe Settings folder '$settingsName' already exists"
-			echo -ne "Are you sure of removing and recreating? (y/n):\e[0m "
-			
-			read answer
-			if [ "$answer" != "${answer#[Yy]}" ]; then
-				rm -r "${settingsFolderDir}${settingsName}/"
-			else
-				echo "Aborted Settings creation."
-				exit 0
-			fi
+		read answer
+		if [ "$answer" != "${answer#[Yy]}" ]; then
+			rm -r "${settingsFolderDir}${settingsName}/"
+		else
+			echo "Aborted Settings creation."
+			exit 0
 		fi
 	fi
-
-	echo "Copying 'default' configuration to '$settingsName' ..."
-	cp -rf "${settingsFolderDir}default" "${settingsFolderDir}${settingsName}"
-	
 fi
+
+echo "Copying 'default' configuration to '$settingsName' ..."
+cp -rf "${settingsFolderDir}default" "${settingsFolderDir}${settingsName}"
 
 echo "$settingsName" > $settingsDir
 echo "Settings folder was set to '$settingsName' in $settingsDir"
@@ -70,13 +71,17 @@ createSetting()
 					dialog="$description (leave empty for default '$default'): "
 					read -p "$dialog" -i "$default" inputValue
 					
-					if [ -z $inputValue ]; then
-						#inputValue=$($default | tr '[:upper:]' '[:lower:]')
+					if [ -z "$inputValue" ]; then
 						inputValue=$default
 					fi
 				;;
 			"int")
+					dialog="$description (number only)(leave empty for default '$default'): "
+					read -p "$dialog" -i "$default" inputValue
 					
+					if [ -z "$inputValue" ]; then
+						inputValue=$default
+					fi
 				;;
 			"pw")
 				echo -ne "Would you like to generate a random password for $description Password? (y/n): "

@@ -17,7 +17,7 @@ if [ -z $dataType ]; then
 	
 	case $dataType in
 		''|*[!0-9]*)
-			echo "Token is broken, see below:" >&2
+			echo "Token '$configurationToken' is broken, see below:" >&2
 			echo "$line" >&2
 			echo "Be sure the setting format is like: Token:Value:Enabled:DataType" >&2
 			echo "                                    TOKEN:value:<0:1><str:int:pw>:" >&2

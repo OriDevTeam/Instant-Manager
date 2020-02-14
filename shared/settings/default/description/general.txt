@@ -1,4 +1,4 @@
-environment:Environment folder name:uname -o
+environment:Environment folder name(case sensitive):echo "$(uname -o)" | awk '{print tolower($0)}'
 locale:Locale folder name:echo "english"
 db_bin:DB binary name:echo "db"
 game_bin:Game binary name:echo "game"
