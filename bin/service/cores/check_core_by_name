@@ -1,0 +1,17 @@
+#!/bin/bash
+core_name=$1
+
+if [ -z $core_name ]; then
+	echo -e "No arguments provided, please execute as: $0 'core_name'"
+	echo "2"
+	exit
+fi
+
+os="$(uname -s)"
+case "${os}" in
+	CYGWIN* | MINGW*)	pidArray=($(pgrep -f $core_name));;
+	FreeBSD*)			pidArray=($(pgrep -f $core_name));;
+	Linux*)				pidArray=($(pgrep -f $core_name));;
+esac
+
+(( "${#pidArray[@]}" == 0 )) && echo 0 || echo 1

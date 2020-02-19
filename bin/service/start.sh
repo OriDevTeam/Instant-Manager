@@ -1,9 +1,9 @@
 #!/bin/bash
 
-pushd "..settings/" > /dev/null
+pushd "../settings/" > /dev/null
 
-game_binary=$(bash get_settings.sh general game_bin)
-db_binary=$(bash get_settings.sh general db_bin)
+game_binary=$(bash get_setting.sh general game_bin)
+db_binary=$(bash get_setting.sh general db_bin)
 
 popd > /dev/null
 
@@ -32,7 +32,7 @@ start_core()
 	elapsed=0
 	
 	corePath=$PWD
-	while [ $(cd ../../../../bin/service && bash cores/check_core "$corePath" $binary_name) == 0 ]; do
+	while [ $(cd ../../../../bin/service && bash cores/check_core_by_name "$p_text") == 0 ]; do
 		elapsed=$(($elapsed+1))
 
 		#clear

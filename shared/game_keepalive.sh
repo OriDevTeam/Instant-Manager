@@ -3,8 +3,8 @@ name=$1
 
 pushd "../../../../bin/settings/" > /dev/null
 
-GAME_BIN=$(bash general game_bin)
-ENV_PATH=$(bash general environment)
+GAME_BIN=$(bash get_setting.sh general game_bin)
+ENV_PATH=$(bash get_setting.sh general environment)
 
 popd > /dev/null
 

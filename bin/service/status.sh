@@ -7,9 +7,8 @@ trap "echo -e ''; exit;" SIGINT SIGTERM
 
 pushd "../settings" > /dev/null
 
-game_binary=$(bash get_setting.sh game_bin)
-db_binary=$(bash get_setting.sh db_bin)
-cores_num=$(bash get_setting.sh cores_num)
+game_binary=$(bash get_setting.sh general game_bin)
+db_binary=$(bash get_setting.sh general db_bin)
 
 popd > /dev/null
 

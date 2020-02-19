@@ -1,8 +1,4 @@
 #!/bin/bash
-# To use this script for now, call it using 'source' command
-# declare two arrays with the names: options and result
-# And fill both with same number of elements
-# Chosen output will be elements from result array
 
 options=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"
 results=( "${@:2:$1}" ); shift "$(( $1 + 1 ))"

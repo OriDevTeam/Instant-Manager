@@ -19,7 +19,7 @@ stop_core()
 	p_text=$(echo $folder | tr '[:lower:]' '[:upper:]')
 	corePath=$PWD
 	
-	if [[ $(cd ../../../../bin/service/ && bash cores/check_core "$corePath" $binary_name) != 1 ]]; then
+	if [[ $(cd ../../../../bin/service/ && bash cores/check_core_by_name "$p_text") != 1 ]]; then
 		echo -e "\e[33m$p_text not running\e[0m" >&2
 		return 1
 	fi
@@ -28,7 +28,7 @@ stop_core()
 	
 	elapsed=0
 	
-	while [[ $(cd ../../../../bin/service/ && bash cores/check_core "$corePath" $binary_name) == 1 ]]; do
+	while [[ $(cd ../../../../bin/service/ && bash cores/check_core_by_name "$p_text") == 1 ]]; do
 		elapsed=$(($elapsed+1))
 
 		#clear

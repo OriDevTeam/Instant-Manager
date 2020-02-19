@@ -10,7 +10,7 @@ esac
 mpg123=`command -v mpg123`
 if [ ! -v $mpg123 ]; then
 	echo -e "\e[32mPlaying: Basshunter - Welcome to Rainbow\e[0m"
-	$mpg123 -q -f 6000 musics/basshunter_rainbow.mp3 > /dev/null &
+	bash -c "exec -a MPG123 $mpg123 -q -f 6000 musics/basshunter_rainbow.mp3" > /dev/null &
 	playerPid=$!
 fi
 
@@ -52,6 +52,6 @@ do
     esac
 done
 
-if [ ! -z $playedPid ]; then
-	bash external/winkill $playerPid
+if [ ! -v $mpg123 ]; then
+	bash external/namekill MPG123
 fi
