@@ -4,3 +4,5 @@ base_game_99_port:20000:1:int:
 adminpage_ip:localhost:1:str:
 adminpage_password:password:1:pw:
 mall_url:localhost:1:str:
+test_server:1:1:int:
+passes_per_sec:25:1:int:

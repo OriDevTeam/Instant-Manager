@@ -3,7 +3,5 @@ channel_index::echo "CHANNEL: ${channel_number}"::
 bind_ip::echo "BIND_IP: $(bash get_setting.sh channels bind_ip)"::
 db_addr::echo "DB_ADDR: $(bash get_setting.sh database db_ip)"::
 db_port::echo "DB_PORT: $(bash get_setting.sh database db_port)"::
-player_sql::echo "PLAYER_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) player"::
-common_sql::echo "COMMON_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) common"::
-log_sql::echo "LOG_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) log"::
 locale_service::echo "LOCALE_SERVICE: $(bash get_setting.sh general locale)" | tr a-z A-Z::
+test_server::echo "TEST_SERVER: $(bash get_setting.sh channels test_server)"::

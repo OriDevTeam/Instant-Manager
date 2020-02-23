@@ -1,2 +1,3 @@
 save_event_second_cycle::echo "SAVE_EVENT_SECOND_CYCLE: 180"::
 ping_event_second_cycle::echo "PING_EVENT_SECOND_CYCLE: 180"::
+passes_per_sec::echo "PASSES_PER_SEC: $(bash get_setting.sh channels passes_per_sec)"::
