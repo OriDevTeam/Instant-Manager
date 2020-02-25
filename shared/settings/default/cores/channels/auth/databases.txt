@@ -1,0 +1,3 @@
+player_sql::echo "PLAYER_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) account"::
+common_sql::echo "COMMON_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) common"::
+log_sql::echo "LOG_SQL: $(bash get_setting.sh database db_ip) $(bash get_setting.sh database db_user) $(bash get_setting.sh database db_password) log"::
