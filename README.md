@@ -1,3 +1,5 @@
+# This project was for learning, as it serves no more purpose it is now archived*
+
 # Instant Manager (Metin2 Server Manager)
 
 ![alt text](https://icyber.me/images/E24.png "Instant Manager Menu")
